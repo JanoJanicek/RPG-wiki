@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MePlay-RPG | Minecraft RPG Wiki</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Crimson Pro', serif; background-color: #1a1614; color: #e2d1c3; }
+        .medieval-font { font-family: 'MedievalSharp', cursive; }
+        .gold-border { border: 1px solid #b28a48; box-shadow: 0 0 15px rgba(178, 138, 72, 0.1); }
+        
+        /* Styly pro dynamicky načítaný sidebar */
+        .sidebar-link-new {
+            @apply pl-4 py-1 text-[15px] text-stone-400 hover:text-amber-400 hover:bg-stone-800/30 transition-all border-l-2 border-transparent hover:border-amber-700 -ml-[1px];
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1a1614; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+
+        article h2 { @apply medieval-font text-2xl text-amber-500 mt-8 mb-4 border-b border-stone-800 pb-2; }
+        article p { @apply leading-relaxed mb-4 text-stone-300; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <nav class="bg-stone-950 sticky top-0 z-50 border-b border-amber-900/50 p-4 shadow-2xl">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <span class="text-2xl">📜</span>
+                <h1 class="medieval-font text-2xl text-amber-500 tracking-wider">MEPLAY-RPG WIKI</h1>
+            </div>
+            <div class="relative">
+                <input type="text" placeholder="Hledat v archivech..." class="bg-stone-900 border border-stone-700 px-4 py-1 rounded text-sm focus:outline-none focus:border-amber-600 w-48 md:w-80 transition-all">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto flex flex-col md:flex-row gap-8 px-4 py-8">
+        
+        <div id="sidebar-placeholder" class="w-full md:w-64 flex-shrink-0"></div>
+
+        <main class="flex-grow">
+            <article class="bg-stone-900/20 p-8 gold-border rounded-sm">
+                
+                <header class="mb-8">
+                    <h1 class="medieval-font text-5xl text-amber-500 mb-2">Metagaming</h1>
+                    <div class="flex items-center text-stone-500 text-sm italic">
+                        <span>Zapsal: Písař Jáno</span>
+                        <span class="mx-2">•</span>
+                        <span>Poslední úprava: 26. února 2026</span>
+                    </div>
+                </header>
+
+                <div class="flex flex-col lg:flex-row gap-8">
+                    
+                    <div class="flex-grow order-2 lg:order-1">
+                        <p class="text-xl italic text-amber-200/70 mb-6">
+                            "Když máš i jiný svět než MePlay-RPG"
+                        </p>
+
+                        <h1 class="medieval-font text-1xl text-amber-500 mb-4">Co to je metagaming?</h1>
+                        <p>
+                            Metagaming je termín používaný v RPG komunitě k popisu situace, kdy hráč využívá informace, které jeho postava ve hře nemá, k rozhodování nebo jednání. To může zahrnovat znalosti o světě, mechanikách hry nebo dokonce o ostatních hráčích, které by postava neměla mít.  
+
+                        <br>
+                        <br>
+                        <p>
+                            Také by jsme nebyli rádi kdyby nepřátelství a vzprory se promítali do reálného světa. V MePlay-RPG se snažíme udržet hranice mezi herním světem a reálným světem, aby nebylo ztraceno příběh a zážitek.
+                        </p>
+                    </div>
+
+                    
+
+                </div>
+
+            
+            </article>
+        </main>
+
+    </div>
+
+    <footer class="bg-stone-950 border-t border-stone-800 py-8 text-center mt-12">
+        <p class="text-stone-600 text-xs">Všechny informace v této kronice jsou majetkem Řádu Písařů.</p>
+    </footer>
+
+    <script>
+        async function loadSidebar() {
+            try {
+                const response = await fetch('../sidebar.html');
+                if (!response.ok) throw new Error('Chyba při načítání sidebaru');
+                const data = await response.text();
+                document.getElementById('sidebar-placeholder').innerHTML = data;
+            } catch (error) {
+                console.error('Sidebar error:', error);
+            }
+        }
+        loadSidebar();
+    </script>
+
+</body>
+</html>

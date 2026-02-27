@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stínový Drak | Minecraft RPG Wiki</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Crimson Pro', serif; background-color: #1a1614; color: #e2d1c3; }
+        .medieval-font { font-family: 'MedievalSharp', cursive; }
+        .gold-border { border: 1px solid #b28a48; box-shadow: 0 0 15px rgba(178, 138, 72, 0.1); }
+        
+        /* Styly pro dynamicky načítaný sidebar */
+        .sidebar-link-new {
+            @apply pl-4 py-1 text-[15px] text-stone-400 hover:text-amber-400 hover:bg-stone-800/30 transition-all border-l-2 border-transparent hover:border-amber-700 -ml-[1px];
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1a1614; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+
+        article h2 { @apply medieval-font text-2xl text-amber-500 mt-8 mb-4 border-b border-stone-800 pb-2; }
+        article p { @apply leading-relaxed mb-4 text-stone-300; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <nav class="bg-stone-950 border-b border-amber-900/50 p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="medieval-font text-xl text-amber-600 tracking-widest">MCREALM WIKI</h1>
+        </div>
+    </nav>
+
+    <div class="container mx-auto flex flex-col md:flex-row gap-8 px-4 py-8">
+        
+        <div id="sidebar-placeholder" class="w-full md:w-64 flex-shrink-0"></div>
+
+        <main class="flex-grow">
+            <article class="bg-stone-900/20 p-8 gold-border rounded-sm">
+                
+                <header class="mb-8">
+                    <h1 class="medieval-font text-5xl text-amber-500 mb-2">Stínový Drak</h1>
+                    <div class="flex items-center text-stone-500 text-sm italic">
+                        <span>Zapsal: Písař Jáno</span>
+                        <span class="mx-2">•</span>
+                        <span>Poslední úprava: 26. února 2026</span>
+                    </div>
+                </header>
+
+                <div class="flex flex-col lg:flex-row gap-8">
+                    
+                    <div class="flex-grow order-2 lg:order-1">
+                        <p class="text-xl italic text-amber-200/70 mb-6">
+                            "Když se dostaneš na místo kde nevíš kdo jsi a co je tvé poslání."
+                        </p>
+
+                        <h1 class="medieval-font text-1xl text-amber-500 mb-4">Kdo jsme?</h1>
+                        <p>
+                            MePlay-RPG je moderní Minecraft server zaměřený na hluboké RPG zážitky. Máme propracovaný příběh začínající filmem a pokračujíci v Minecraftu.  
+                        <h2>To nejlepší</h2>
+                        <p>
+                            Drak je pasivní, dokud do jeho teritoria nevstoupí nositel světla (hráč s pochodní nebo svítícím předmětem). Mezi jeho hlavní útoky patří:
+                        </p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 text-stone-400">
+                            <li><strong>Stínový dech:</strong> Způsobuje slepotu na 10 sekund.</li>
+                            <li><strong>Pohlcení světla:</strong> Okamžitě zhasne všechny louče v okruhu 50 bloků.</li>
+                            <li><strong>Fázování:</strong> Drak se stane na krátkou chvíli nehmotným.</li>
+                        </ul>
+
+                        <h2>Strategie boje</h2>
+                        <p>
+                            Doporučuje se vybavení s očarováním <em>"Světelný bod"</em> a zbraně kované z hvězdného stříbra. Bez lektvaru nočního vidění je boj v podstatě sebevraždou.
+                        </p>
+                    </div>
+
+                    <aside class="w-full lg:w-80 order-1 lg:order-2">
+                        <div class="bg-stone-950 border border-amber-900/50 overflow-hidden shadow-2xl">
+                            <div class="bg-amber-900/20 p-4 text-center border-b border-amber-900/50">
+                                <h3 class="medieval-font text-xl text-amber-500 uppercase">Statistiky</h3>
+                            </div>
+                            <div class="p-4">
+                                <img src="https://via.placeholder.com/300x200/26211e/b28a48?text=Image+of+Shadow+Dragon" alt="Drak" class="w-full gold-border mb-4">
+                                
+                                <table class="w-full text-sm">
+                                    <tr class="border-b border-stone-800">
+                                        <td class="py-2 text-stone-500 uppercase text-[10px] font-bold">Zdraví</td>
+                                        <td class="py-2 text-right text-red-500 font-bold">1 500 ❤️</td>
+                                    </tr>
+                                    <tr class="border-b border-stone-800">
+                                        <td class="py-2 text-stone-500 uppercase text-[10px] font-bold">Útok</td>
+                                        <td class="py-2 text-right text-stone-200">45 - 60 ⚔️</td>
+                                    </tr>
+                                    <tr class="border-b border-stone-800">
+                                        <td class="py-2 text-stone-500 uppercase text-[10px] font-bold">Typ</td>
+                                        <td class="py-2 text-right text-purple-400">Legendární Boss</td>
+                                    </tr>
+                                    <tr class="border-b border-stone-800">
+                                        <td class="py-2 text-stone-500 uppercase text-[10px] font-bold">Lokace</td>
+                                        <td class="py-2 text-right text-stone-200 underline cursor-pointer">Černá citadela</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 text-stone-500 uppercase text-[10px] font-bold">Drop</td>
+                                        <td class="py-2 text-right text-amber-400 text-xs italic">Ebonové srdce, Stínové oko (1%)</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="bg-stone-900 p-2 text-center text-[10px] text-stone-600 italic">
+                                ID: entity.shadow_dragon.ancient
+                            </div>
+                        </div>
+                    </aside>
+
+                </div>
+
+                <footer class="mt-16 pt-8 border-t border-stone-800 flex justify-between items-center">
+                    <div class="flex gap-2">
+                        <span class="bg-stone-800 px-3 py-1 rounded-full text-[10px] text-stone-400">#Boss</span>
+                        <span class="bg-stone-800 px-3 py-1 rounded-full text-[10px] text-stone-400">#Temnota</span>
+                        <span class="bg-stone-800 px-3 py-1 rounded-full text-[10px] text-stone-400">#End</span>
+                    </div>
+                    <button class="text-amber-600 hover:text-amber-400 transition text-sm flex items-center">
+                        <span class="mr-2">⬆</span> Na začátek kroniky
+                    </button>
+                </footer>
+            </article>
+        </main>
+
+    </div>
+
+    <footer class="bg-stone-950 border-t border-stone-800 py-8 text-center mt-12">
+        <p class="text-stone-600 text-xs">Všechny informace v této kronice jsou majetkem Řádu Písařů.</p>
+    </footer>
+
+    <script>
+        async function loadSidebar() {
+            try {
+                const response = await fetch('../sidebar.html');
+                if (!response.ok) throw new Error('Chyba při načítání sidebaru');
+                const data = await response.text();
+                document.getElementById('sidebar-placeholder').innerHTML = data;
+            } catch (error) {
+                console.error('Sidebar error:', error);
+            }
+        }
+        loadSidebar();
+    </script>
+
+</body>
+</html>

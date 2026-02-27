@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MePlay-RPG</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Crimson Pro', serif;
+            background-color: #1a1614;
+            color: #e2d1c3;
+        }
+        .medieval-font { font-family: 'MedievalSharp', cursive; }
+        .gold-border {
+            border: 1px solid #b28a48;
+            box-shadow: 0 0 10px rgba(178, 138, 72, 0.1);
+        }
+        /* Styl pro odkazy v sidebaru (který se načte externě) */
+        .sidebar-link-new {
+            @apply pl-4 py-1 text-[15px] text-stone-400 hover:text-amber-400 hover:bg-stone-800/30 transition-all border-l-2 border-transparent hover:border-amber-700 -ml-[1px];
+        }
+        /* Custom scrollbar pro sidebar */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1a1614; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <nav class="bg-stone-950 sticky top-0 z-50 border-b border-amber-900/50 p-4 shadow-2xl">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <span class="text-2xl">📜</span>
+                <h1 class="medieval-font text-2xl text-amber-500 tracking-wider">MEPLAY-RPG WIKI</h1>
+            </div>
+            <div class="relative">
+                <input type="text" placeholder="Hledat v archivech..." class="bg-stone-900 border border-stone-700 px-4 py-1 rounded text-sm focus:outline-none focus:border-amber-600 w-48 md:w-80 transition-all">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto flex flex-col md:flex-row gap-8 px-4 py-8">
+        
+        <div id="sidebar-placeholder" class="w-full md:w-72 flex-shrink-0"></div>
+
+        <main class="flex-grow">
+            <div class="relative overflow-hidden gold-border rounded-sm p-8 mb-12 bg-[url('https://www.transparenttextures.com/patterns/dark-leather.png')]">
+                <div class="relative z-10">
+                    <h2 class="medieval-font text-5xl text-amber-500 mb-4">Vítej, poutníku!</h2>
+                    <p class="text-stone-300 max-w-2xl leading-relaxed italic text-lg">
+                        Právě jsi vstoupil do největšího archivu znalostí o našem RPG světě. Zde najdeš vše od receptů na zakázanou magii až po seznam padlých hrdinů.
+                    </p>
+                </div>
+                <div class="absolute right-0 bottom-0 opacity-10 text-9xl">🛡️</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <section class="bg-stone-900/40 p-6 border border-stone-800 hover:border-amber-700/50 transition">
+                    <h3 class="medieval-font text-xl text-amber-600 mb-4 flex items-center">
+                        <span class="mr-2">🐉</span> Průvodce nestvůrami
+                    </h3>
+                    <ul class="space-y-2 text-stone-400 text-sm">
+                        <li class="flex justify-between border-b border-stone-800 pb-1">
+                            <a href="#" class="hover:text-amber-500">Nemrtví rytíři</a>
+                            <span class="text-stone-600">Level 20-35</span>
+                        </li>
+                        <li class="flex justify-between border-b border-stone-800 pb-1">
+                            <a href="#" class="hover:text-amber-500">Stínový drak</a>
+                            <span class="text-red-900 font-bold uppercase text-[10px] self-center">Boss</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="bg-stone-900/40 p-6 border border-stone-800 hover:border-amber-700/50 transition">
+                    <h3 class="medieval-font text-xl text-amber-600 mb-4 flex items-center">
+                        <span class="mr-2">🧪</span> Alchymistická laboratoř
+                    </h3>
+                    <div class="bg-stone-950 p-3 rounded border border-amber-900/30">
+                        <p class="text-xs text-stone-500 italic mb-2">Dnešní recept:</p>
+                        <p class="text-amber-200 text-sm font-bold">Lektvar Orlího zraku</p>
+                        <p class="text-[10px] text-stone-400 mt-1">Suroviny: 1x Glowstone, 2x Zaječí packa</p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="mt-12 p-4 bg-amber-900/10 border-l-4 border-amber-600 italic text-stone-400 text-sm">
+                <strong>Poznámka kronikáře:</strong> Pokud najdeš v textu chybu, neváhej kontaktovat Radu starších.
+            </div>
+        </main>
+    </div>
+
+    <footer class="mt-20 border-t border-stone-800 bg-stone-950 py-10 text-center">
+        <p class="text-stone-500 text-sm font-serif italic">"Zapsáno krví a stvrzeno ocelí."</p>
+    </footer>
+
+    <script>
+        async function loadSidebar() {
+            try {
+                const response = await fetch('sidebar.html');
+                if (!response.ok) throw new Error('Soubor sidebar.html nebyl nalezen.');
+                const data = await response.text();
+                document.getElementById('sidebar-placeholder').innerHTML = data;
+            } catch (error) {
+                console.error('Chyba při načítání menu:', error);
+                document.getElementById('sidebar-placeholder').innerHTML = '<p class="text-red-900 text-xs text-center">Menu se nepodařilo načíst. Spusťte web přes server.</p>';
+            }
+        }
+        loadSidebar();
+    </script>
+</body>
+</html>
