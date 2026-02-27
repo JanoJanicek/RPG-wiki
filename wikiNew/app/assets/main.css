@@ -1,0 +1,9 @@
+@config {
+  content: [
+    "./app/**/*.{vue,js,ts}"
+  ];
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
