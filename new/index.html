@@ -1,1137 +1,894 @@
 <!DOCTYPE html>
-<html lang="cs" class="scroll-smooth">
+<html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MePlay RPG - Oficiální Wiki</title>
-    <!-- Tailwind CSS -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MePlay RPG Wiki</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        rpgDark: '#0B0A09',
-                        rpgCard: '#141210',
-                        rpgBorder: '#2A241F',
-                        rpgGold: '#C5A880',
-                        rpgGoldHover: '#E2CEB1'
+                        rpgDark: '#090a0b',
+                        rpgPanel: '#14171a',
+                        rpgCard: '#1b2024',
+                        rpgBorder: '#313942',
+                        rpgGold: '#d7b46a',
+                        rpgGoldHover: '#f0d18b',
+                        rpgGreen: '#69c3a5'
                     },
                     fontFamily: {
-                        serif: ['Georgia', 'serif'],
-                        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+                        serif: ['Georgia', 'serif']
                     }
                 }
             }
         }
     </script>
-    <!-- FontAwesome Icons -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* Stylizace posuvníku pro prémiový vzhled */
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            letter-spacing: 0;
+            overflow-x: hidden;
+        }
+
+        .clamp {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-card {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-media {
+            aspect-ratio: 16/9;
+            height: auto;
+            min-height: 150px;
+        }
+
+        .article-title {
+            line-height: 1.2;
+            overflow-wrap: anywhere;
+        }
+
+        .article-summary {
+            line-height: 1.6;
+        }
+
+        .article-footer {
+            margin-top: auto;
+        }
+
+        .category-scroll {
+            scrollbar-width: thin;
+        }
+
+        .prose {
+            overflow-wrap: anywhere;
+        }
+
+        .prose h2, .prose h3 {
+            color: #fff;
+            font-family: Georgia, serif;
+            font-weight: 800;
+            margin-top: 1rem;
+            line-height: 1.25;
+        }
+
+        .prose p {
+            margin: .8rem 0;
+            line-height: 1.75;
+        }
+
+        .prose ul, .prose ol {
+            padding-left: 1.5rem;
+            margin: .8rem 0;
+        }
+
+        .prose ul {
+            list-style: disc;
+        }
+
+        .prose ol {
+            list-style: decimal;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+            padding: .5rem;
+            border: 1px solid #313942;
+            border-bottom: 0;
+            border-radius: .25rem .25rem 0 0;
+            background: #090a0b;
+        }
+
+        .editor-toolbar button,
+        .editor-toolbar select {
+            min-height: 2rem;
+            border: 1px solid #313942;
+            border-radius: .25rem;
+            background: #14171a;
+            color: #e5e7eb;
+            font-size: .75rem;
+            font-weight: 700;
+            padding: .35rem .55rem;
+        }
+
+        .editor-toolbar button:hover,
+        .editor-toolbar select:hover {
+            border-color: #d7b46a;
+            color: #d7b46a;
+        }
+
+        .editor-canvas {
+            min-height: 15rem;
+            max-height: 45dvh;
+            overflow: auto;
+            border: 1px solid #313942;
+            border-radius: 0 0 .25rem .25rem;
+            background: #090a0b;
+            color: #d1d5db;
+            padding: 1rem;
+            outline: none;
+        }
+
+        .editor-canvas:focus {
+            border-color: #d7b46a;
+        }
+
+        .editor-canvas blockquote,
+        .prose blockquote {
+            border-left: 2px solid #d7b46a;
+            color: #d1d5db;
+            font-style: italic;
+            margin: .9rem 0;
+            padding-left: 1rem;
+        }
+
+        .html-source {
+            border-radius: 0 0 .25rem .25rem;
+        }
+
+        dialog {
+            max-height: 92dvh;
+            overflow: auto;
+        }
+
+        table th, table td {
+            vertical-align: middle;
+        }
+
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
         }
-        ::-webkit-scrollbar-track {
-            background: #0B0A09;
-        }
+
         ::-webkit-scrollbar-thumb {
-            background: #2A241F;
-            border-radius: 4px;
-            border: 1px solid #C5A880;
+            background: #313942;
+            border-radius: 999px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #C5A880;
+
+        @media (max-width: 640px) {
+            .mobile-stack {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+            }
+
+            .hero-title {
+                font-size: 2.35rem !important;
+                line-height: 1.05;
+            }
+
+            .hero-panel {
+                width: 100%;
+            }
+
+            .admin-actions {
+                width: 100%;
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dialog-actions {
+                display: grid !important;
+                grid-template-columns: 1fr;
+            }
+
+            .table-wrap {
+                margin-left: -1rem;
+                margin-right: -1rem;
+                border-left: 0 !important;
+                border-right: 0 !important;
+                border-radius: 0 !important;
+            }
+
+            .article-chip {
+                max-width: calc(100% - 1.5rem);
+                white-space: normal;
+                line-height: 1.25;
+            }
+
+            .viewer-title {
+                font-size: 2rem !important;
+                line-height: 1.1;
+            }
+
+            .viewer-pad {
+                padding: 1.25rem !important;
+            }
         }
     </style>
 </head>
-<body class="bg-rpgDark text-gray-300 font-sans min-h-screen flex flex-col selection:bg-rpgGold selection:text-rpgDark">
+<body class="bg-rpgDark text-gray-300 min-h-screen flex flex-col antialiased selection:bg-rpgGold selection:text-rpgDark">
 
-    <!-- NAVIGACE (Stejný styl jako index.html s úpravou pro Wiki) -->
-    <nav class="sticky top-0 z-50 bg-rpgDark/95 backdrop-blur-md border-b border-rpgBorder px-4 lg:px-8 py-4">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-6">
-                <a href="index.html" class="text-2xl font-black tracking-widest text-white font-serif flex items-center gap-2">
-                    <span class="text-rpgGold"><i class="fa-solid fa-dice-d20"></i></span> MEPLAY<span class="text-rpgGold">RPG</span>
-                    <span class="text-xs font-sans font-bold bg-rpgGold/20 text-rpgGold px-2.5 py-1 rounded border border-rpgGold/30 uppercase tracking-widest">WIKI</span>
-                </a>
-            </div>
-            
-            <div class="flex items-center gap-4">
-                <button onclick="toggleAdminView()" class="text-xs font-bold uppercase tracking-wider text-rpgGold hover:text-rpgGoldHover transition-colors flex items-center gap-1.5 bg-rpgGold/10 hover:bg-rpgGold/20 px-3 py-2 rounded border border-rpgGold/20">
-                    <i class="fa-solid fa-gears"></i> Administrace
+    <nav class="sticky top-0 z-40 bg-rpgDark/95 backdrop-blur border-b border-rpgBorder px-4 py-3">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-[1fr_auto] items-center gap-3">
+            <a class="text-xl sm:text-2xl font-black font-serif tracking-widest text-white leading-tight break-words" href="/">
+                MEPLAY<span class="text-rpgGold">RPG</span> 
+                <span class="text-xs font-sans border border-rpgGold/30 bg-rpgGold/10 text-rpgGold px-2 py-1 rounded">WIKI</span>
+            </a>
+            <div class="flex flex-wrap items-center justify-start sm:justify-end gap-2">
+                <span class="text-xs font-mono text-rpgGreen border border-rpgGreen/20 bg-rpgGreen/10 px-2 py-1 rounded">MC 1.21.11</span>
+                <button onclick="toggleAdmin()" class="text-xs uppercase font-bold text-rpgGold border border-rpgGold/25 bg-rpgGold/10 hover:bg-rpgGold/20 px-3 py-2 rounded">
+                    <i class="fa-solid fa-gears mr-1"></i>Administrace
                 </button>
-                <span class="text-rpgBorder">|</span>
-                <a href="index.html" class="text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors flex items-center gap-1">
-                    <i class="fa-solid fa-arrow-left"></i> Zpět na web
-                </a>
-                <span class="text-rpgBorder">|</span>
-                <span class="text-xs font-mono text-rpgGold bg-rpgGold/10 px-2 py-1 rounded border border-rpgGold/20">VERZE 1.21.11</span>
             </div>
         </div>
     </nav>
 
-    <!-- VYHLEDÁVACÍ HEADER (Inspirace KCD II blogem) -->
-    <header class="relative bg-gradient-to-b from-rpgCard to-rpgDark border-b border-rpgBorder py-16 px-4">
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(197,168,128,0.05),transparent_60%)] pointer-events-none"></div>
-        <div class="max-w-3xl mx-auto text-center space-y-6 relative z-10">
-            <span class="text-rpgGold font-bold uppercase tracking-widest text-xs"><i class="fa-solid fa-scroll mr-1.5"></i> Knihovna Znalostí</span>
-            <h1 class="text-4xl md:text-5xl font-serif font-black text-white uppercase tracking-tight">Jak ti můžeme pomoci?</h1>
-            <p class="text-gray-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-                Hledej návody, herní mechaniky, popisy lokací nebo příběhy postav ze sveta MePlay RPG.
-            </p>
-            
-            <!-- Vyhledávač -->
-            <div class="relative max-w-2xl mx-auto">
-                <span class="absolute inset-y-0 left-4 flex items-center text-gray-500 text-lg">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </span>
-                <input type="text" id="wiki-search" oninput="handleSearch()" placeholder="Zadej klíčové slovo (např. boj, Královec, ruda)..." class="w-full bg-rpgDark/80 hover:bg-rpgDark border border-rpgBorder focus:border-rpgGold rounded-lg py-4 pl-12 pr-4 text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-1 focus:ring-rpgGold transition-all shadow-inner">
+    <header id="hero" class="relative border-b border-rpgBorder bg-rpgPanel overflow-hidden">
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(9,10,11,.62),rgba(9,10,11,.94)),url('https://images.unsplash.com/photo-1607513746994-51f730a44832?auto=format&fit=crop&w=1800&q=80')] bg-cover bg-center"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 md:py-20 grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 lg:gap-8 items-end">
+            <div class="max-w-3xl space-y-5 min-w-0">
+                <p class="text-rpgGold text-xs uppercase font-bold tracking-widest">
+                    <i class="fa-solid fa-scroll mr-2"></i>Knihovna znalostí
+                </p>
+                <h1 class="hero-title text-4xl md:text-6xl font-serif font-black text-white uppercase leading-tight break-words">
+                    MePlay RPG Wiki
+                </h1>
+                <p class="text-gray-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                    Návody, mechaniky, lokace a lore pro hráče Minecraft RPG serveru.
+                </p>
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                    <input id="q" oninput="renderArticles()" class="w-full bg-rpgDark/85 border border-rpgBorder focus:border-rpgGold rounded-lg py-4 pl-12 pr-4 text-white outline-none" placeholder="Hledej připojení, quest, alchymie, lokace...">
+                </div>
+                <div id="quick" class="flex flex-wrap gap-2 text-xs"></div>
             </div>
-
-            <!-- Rychlé štítky -->
-            <div class="flex flex-wrap justify-center gap-2 pt-2 text-xs">
-                <span class="text-gray-500 self-center">Časté hledání:</span>
-                <button onclick="setSearchValue('boj')" class="bg-rpgBorder/50 hover:bg-rpgBorder hover:text-white px-2.5 py-1 rounded text-gray-400 transition-colors">#boj</button>
-                <button onclick="setSearchValue('kralovec')" class="bg-rpgBorder/50 hover:bg-rpgBorder hover:text-white px-2.5 py-1 rounded text-gray-400 transition-colors">#kralovec</button>
-                <button onclick="setSearchValue('pripojeni')" class="bg-rpgBorder/50 hover:bg-rpgBorder hover:text-white px-2.5 py-1 rounded text-gray-400 transition-colors">#pripojeni</button>
-                <button onclick="setSearchValue('alchymie')" class="bg-rpgBorder/50 hover:bg-rpgBorder hover:text-white px-2.5 py-1 rounded text-gray-400 transition-colors">#alchymie</button>
+            <div class="hero-panel bg-rpgDark/80 border border-rpgBorder rounded-lg p-4 sm:p-5">
+                <div class="grid grid-cols-3 gap-3 text-center">
+                    <div>
+                        <b id="statA" class="text-2xl text-white">0</b>
+                        <p class="text-[10px] uppercase text-gray-500">Článků</p>
+                    </div>
+                    <div>
+                        <b id="statC" class="text-2xl text-white">0</b>
+                        <p class="text-[10px] uppercase text-gray-500">Kategorií</p>
+                    </div>
+                    <div>
+                        <b class="text-2xl text-white">24/7</b>
+                        <p class="text-[10px] uppercase text-gray-500">Pomoc</p>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- HLAVNÍ OBSAH (Kategorie & Články) -->
-    <main class="max-w-7xl mx-auto px-4 lg:px-8 py-12 flex-grow w-full flex flex-col lg:flex-row gap-8">
-        
-        <!-- Boční Navigace Kategorií (Dynamicky vykreslovaná) -->
-        <aside class="w-full lg:w-64 shrink-0 space-y-4">
-            <h2 class="text-xs font-bold uppercase tracking-widest text-rpgGold border-b border-rpgBorder pb-3">Kategorie témat</h2>
-            <div id="sidebar-categories" class="flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 gap-1.5 scrollbar-thin">
-                <!-- Generováno dynamicky z JS -->
+    <main id="main" class="max-w-7xl mx-auto w-full flex-grow px-4 sm:px-6 lg:px-8 py-6 sm:py-10 grid lg:grid-cols-[250px_minmax(0,1fr)] gap-6 lg:gap-8">
+        <aside>
+            <div class="flex justify-between items-center border-b border-rpgBorder pb-3 mb-4">
+                <h2 class="text-xs uppercase font-bold tracking-widest text-rpgGold">Kategorie</h2>
+                <button title="Vyčistit" onclick="active='all';q.value='';closeArticle();renderAll()" class="text-gray-500 hover:text-white">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
             </div>
+            <div id="cats" class="category-scroll flex lg:flex-col gap-2 overflow-x-auto pb-2 -mx-1 px-1 lg:mx-0 lg:px-0"></div>
         </aside>
 
-        <!-- Výpis článků nebo Detail článku -->
-        <section class="flex-grow">
-            <!-- Grid článků -->
-            <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Generováno dynamicky z JS -->
-            </div>
-
-            <!-- PROHLÍŽEČ ČLÁNKŮ (Detail) -->
-            <article id="article-viewer" class="hidden bg-rpgCard border border-rpgBorder rounded-lg p-6 md:p-8 space-y-6">
-                <div class="h-64 md:h-80 rounded-lg overflow-hidden relative bg-rpgDark">
-                    <img id="view-image" src="" alt="" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-rpgCard to-transparent"></div>
-                    <span id="view-category" class="absolute top-4 left-4 bg-rpgDark/90 text-rpgGold text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded border border-rpgGold/30"></span>
+        <section class="min-w-0">
+            <div id="msg" class="hidden mb-4 border border-rpgBorder bg-rpgPanel rounded-lg p-4 text-sm text-gray-400"></div>
+            
+            <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5 items-stretch"></div>
+            
+            <article id="viewer" class="hidden bg-rpgPanel border border-rpgBorder rounded-lg overflow-hidden">
+                <div class="h-64 md:h-96 relative bg-rpgDark">
+                    <img id="vImg" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-rpgPanel to-transparent"></div>
+                    <span id="vCat" class="absolute top-4 left-4 bg-rpgDark/90 text-rpgGold text-xs uppercase font-bold tracking-widest px-3 py-1.5 rounded border border-rpgGold/30"></span>
                 </div>
-
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4 text-xs font-mono text-gray-500">
-                        <span id="view-readtime"><i class="fa-regular fa-clock mr-1"></i> 5 min čtení</span>
-                        <span>•</span>
-                        <span>Autor: MePlay Tým</span>
+                <div class="viewer-pad p-5 md:p-8 space-y-5">
+                    <p id="vMeta" class="text-xs font-mono text-gray-500"></p>
+                    <h2 id="vTitle" class="viewer-title text-3xl md:text-5xl font-serif font-black text-white uppercase leading-tight break-words"></h2>
+                    <p id="vEx" class="text-gray-400 italic border-l-2 border-rpgBorder pl-4"></p>
+                    <div id="vContent" class="prose max-w-none"></div>
+                    <div class="bg-rpgDark border-l-2 border-rpgGold p-4 rounded">
+                        <b class="text-xs uppercase tracking-widest text-rpgGold">Herní rada</b>
+                        <p id="vTip" class="text-sm italic text-gray-400 mt-2"></p>
                     </div>
-                    <h2 id="view-title" class="text-3xl md:text-4xl font-serif font-black text-white uppercase tracking-tight"></h2>
-                    <p id="view-excerpt" class="text-base text-gray-400 italic leading-relaxed border-l-2 border-rpgBorder pl-4"></p>
-                </div>
-
-                <div id="view-content" class="prose prose-invert max-w-none text-gray-300 space-y-4 leading-relaxed">
-                    <!-- HTML Obsah článku -->
-                </div>
-
-                <!-- Infobox / Tip vývojářů -->
-                <div class="bg-rpgDark border-l-2 border-rpgGold p-4 rounded text-sm text-gray-400 space-y-2">
-                    <span class="text-xs uppercase font-bold text-rpgGold tracking-wider block"><i class="fa-solid fa-shield-cat mr-1"></i> Herní Rada:</span>
-                    <p id="view-tip" class="italic leading-relaxed">
-                        Tato rada ti usnadní hru a zachrání život.
-                    </p>
-                </div>
-
-                <div class="pt-6 border-t border-rpgBorder flex items-center justify-between">
-                    <button onclick="closeArticleViewer()" class="bg-rpgBorder hover:bg-white/5 text-white font-bold uppercase text-xs tracking-wider px-5 py-2.5 rounded border border-gray-600 hover:border-white transition-all">
-                        <i class="fa-solid fa-chevron-left mr-1"></i> Zpět na seznam
-                    </button>
-                    <div class="text-xs text-gray-500 italic">Poslední úprava: červen 2026</div>
+                    <div class="flex flex-wrap justify-between gap-3 border-t border-rpgBorder pt-5">
+                        <button onclick="closeArticle()" class="bg-rpgBorder hover:bg-white/5 text-white text-xs uppercase font-bold px-5 py-2.5 rounded">Zpět</button>
+                        <button id="vEdit" onclick="openArticleForm(current)" class="hidden bg-rpgGold hover:bg-rpgGoldHover text-rpgDark text-xs uppercase font-bold px-5 py-2.5 rounded">Upravit</button>
+                    </div>
                 </div>
             </article>
-
         </section>
-
     </main>
 
-    <!-- ADMIN PANEL VIEW (Zobrazí se po kliknutí na "Administrace") -->
-    <section id="admin-view" class="hidden max-w-7xl mx-auto px-4 py-12 flex-grow w-full space-y-6">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-rpgBorder pb-6">
+    <section id="admin" class="hidden max-w-7xl mx-auto w-full flex-grow px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6">
+        <div class="mobile-stack flex flex-wrap justify-between gap-4 border-b border-rpgBorder pb-5">
             <div>
-                <span class="text-rpgGold uppercase font-bold tracking-widest text-xs">Správa obsahu encyklopedie</span>
-                <h1 class="text-3xl font-black text-white font-serif uppercase tracking-tight">Administrace Wiki</h1>
+                <p class="text-rpgGold text-xs uppercase font-bold tracking-widest">Správa obsahu</p>
+                <h1 class="text-2xl sm:text-3xl font-serif font-black text-white uppercase leading-tight">Administrace Wiki</h1>
             </div>
-            <!-- Ovládací tlačítka v administraci s možností odhlášení -->
-            <div class="flex gap-3">
-                <button onclick="handleLogout()" class="bg-red-950/40 hover:bg-red-900/60 border border-red-900 text-red-400 hover:text-red-300 font-bold uppercase text-xs tracking-wider px-4 py-2.5 rounded transition-all">
-                    <i class="fa-solid fa-power-off mr-1.5"></i> Odhlásit
-                </button>
-                <button onclick="toggleAdminView()" class="bg-rpgBorder hover:bg-white/5 border border-gray-600 hover:border-white text-white font-bold uppercase text-xs tracking-wider px-4 py-2.5 rounded transition-all">
-                    Zavřít Admin
-                </button>
+            <div class="admin-actions flex gap-2">
+                <button onclick="logout()" class="bg-red-950/40 border border-red-900 text-red-300 text-xs uppercase font-bold px-4 py-2.5 rounded">Odhlásit</button>
+                <button onclick="toggleAdmin()" class="bg-rpgBorder text-white text-xs uppercase font-bold px-4 py-2.5 rounded">Zavřít</button>
             </div>
         </div>
 
-        <!-- Přepínání Administračních záložek (Články / Kategorie) -->
-        <div class="flex gap-4 border-b border-rpgBorder mb-6">
-            <button onclick="switchAdminTab('articles')" id="tab-btn-articles" class="border-b-2 border-rpgGold text-rpgGold px-4 py-2 font-bold text-sm tracking-wider uppercase transition-all">
-                <i class="fa-solid fa-file-lines mr-1.5"></i> Správa Článků
-            </button>
-            <button onclick="switchAdminTab('categories')" id="tab-btn-categories" class="text-gray-400 hover:text-white px-4 py-2 font-bold text-sm tracking-wider uppercase transition-all">
-                <i class="fa-solid fa-folder-open mr-1.5"></i> Správa Kategorií
-            </button>
+        <div class="flex gap-4 border-b border-rpgBorder">
+            <button id="tabA" onclick="tab('a')" class="border-b-2 border-rpgGold text-rpgGold px-4 py-3 font-bold uppercase text-sm">Články</button>
+            <button id="tabC" onclick="tab('c')" class="text-gray-400 px-4 py-3 font-bold uppercase text-sm">Kategorie</button>
         </div>
 
-        <!-- SEKCE 1: SPRÁVA ČLÁNKŮ -->
-        <div id="admin-articles-section" class="space-y-4">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xl font-bold font-serif text-white uppercase tracking-wider">Seznam Článků</h2>
-                <button onclick="openArticleForm()" class="bg-rpgGold hover:bg-rpgGoldHover text-rpgDark font-bold uppercase text-xs tracking-wider px-4 py-2.5 rounded transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-plus"></i> Nový Článek
-                </button>
+        <div id="adminA" class="space-y-4">
+            <div class="flex justify-between">
+                <h2 class="article-title text-lg sm:text-xl font-serif font-bold text-white uppercase">Články</h2>
+                <button onclick="openArticleForm()" class="bg-rpgGold text-rpgDark text-xs uppercase font-bold px-4 py-2.5 rounded">Nový článek</button>
             </div>
-            <div class="bg-rpgCard border border-rpgBorder rounded-lg overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-sm text-gray-300">
-                        <thead class="bg-rpgDark/80 text-xs font-bold uppercase text-gray-400 border-b border-rpgBorder">
-                            <tr>
-                                <th class="p-4">Obrázek</th>
-                                <th class="p-4">Název článku</th>
-                                <th class="p-4">Kategorie</th>
-                                <th class="p-4">Doba čtení</th>
-                                <th class="p-4 text-right">Akce</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-table-body" class="divide-y divide-rpgBorder/50">
-                            <!-- Dynamicky generováno z JS -->
-                        </tbody>
-                    </table>
-                </div>
+            <div class="table-wrap overflow-x-auto bg-rpgPanel border border-rpgBorder rounded-lg">
+                <table class="w-full min-w-[720px] text-sm">
+                    <thead class="bg-rpgDark text-gray-400 uppercase text-xs">
+                        <tr>
+                            <th class="p-4 text-left">Obrázek</th>
+                            <th class="p-4 text-left">Název</th>
+                            <th class="p-4 text-left">Kategorie</th>
+                            <th class="p-4 text-left">Čtení</th>
+                            <th class="p-4 text-right">Akce</th>
+                        </tr>
+                    </thead>
+                    <tbody id="aRows"></tbody>
+                </table>
             </div>
         </div>
 
-        <!-- SEKCE 2: SPRÁVA KATEGORIÍ -->
-        <div id="admin-categories-section" class="hidden space-y-4">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xl font-bold font-serif text-white uppercase tracking-wider">Seznam Kategorií</h2>
-                <button onclick="openCategoryForm()" class="bg-rpgGold hover:bg-rpgGoldHover text-rpgDark font-bold uppercase text-xs tracking-wider px-4 py-2.5 rounded transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-plus"></i> Nová Kategorie
-                </button>
+        <div id="adminC" class="hidden space-y-4">
+            <div class="flex justify-between">
+                <h2 class="text-xl font-serif font-bold text-white uppercase">Kategorie</h2>
+                <button onclick="openCategoryForm()" class="bg-rpgGold text-rpgDark text-xs uppercase font-bold px-4 py-2.5 rounded">Nová kategorie</button>
             </div>
-            <div class="bg-rpgCard border border-rpgBorder rounded-lg overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-sm text-gray-300">
-                        <thead class="bg-rpgDark/80 text-xs font-bold uppercase text-gray-400 border-b border-rpgBorder">
-                            <tr>
-                                <th class="p-4">Ikona</th>
-                                <th class="p-4">Název kategorie</th>
-                                <th class="p-4">Kód (ID)</th>
-                                <th class="p-4">Počet článků</th>
-                                <th class="p-4 text-right">Akce</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-categories-table-body" class="divide-y divide-rpgBorder/50">
-                            <!-- Dynamicky generováno z JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- MODÁLNÍ FORMULÁŘ PRO ČLÁNKY -->
-        <div id="article-form-modal" class="hidden fixed inset-0 z-50 bg-rpgDark/90 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-            <div class="bg-rpgCard border border-rpgBorder rounded-lg max-w-3xl w-full p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
-                <div class="flex justify-between items-center border-b border-rpgBorder pb-4">
-                    <h3 id="form-modal-title" class="text-xl font-bold font-serif text-white uppercase tracking-wider">Nový Článek</h3>
-                    <button onclick="closeArticleForm()" class="text-gray-500 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-                </div>
-                
-                <form id="wiki-article-form" onsubmit="saveArticle(event)" class="space-y-4">
-                    <input type="hidden" id="form-article-id">
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="space-y-1">
-                            <label class="text-xs uppercase font-bold text-gray-400">Název Článku</label>
-                            <input type="text" id="form-title" required class="w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white text-sm focus:border-rpgGold focus:outline-none">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-xs uppercase font-bold text-gray-400">Kategorie</label>
-                            <select id="form-category" class="w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white text-sm focus:border-rpgGold focus:outline-none">
-                                <!-- Vyplněno dynamicky -->
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="space-y-1">
-                            <label class="text-xs uppercase font-bold text-gray-400">Doba čtení (minuty)</label>
-                            <input type="number" id="form-readtime" required min="1" class="w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white text-sm focus:border-rpgGold focus:outline-none">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-xs uppercase font-bold text-gray-400">URL Obrázku (příp. nechte prázdné)</label>
-                            <input type="url" id="form-image" placeholder="https://..." class="w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white text-sm focus:border-rpgGold focus:outline-none">
-                        </div>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs uppercase font-bold text-gray-400">Stručný Popis (Excerpt)</label>
-                        <textarea id="form-excerpt" required rows="2" class="w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white text-sm focus:border-rpgGold focus:outline-none"></textarea>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs uppercase font-bold text-gray-400">Obsah článku (HTML povolen)</label>
-                        <textarea id="form-content" required rows="6" placeholder="&lt;p&gt;Obsah článku...&lt;/p&gt;" class="w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white text-sm focus:border-rpgGold focus:outline-none font-mono"></textarea>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs uppercase font-bold text-gray-400">Herní rada / Tip</label>
-                        <input type="text" id="form-tip" class="w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white text-sm focus:border-rpgGold focus:outline-none">
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs uppercase font-bold text-gray-400">Klíčová slova (oddělená čárkou)</label>
-                        <input type="text" id="form-keywords" placeholder="boj, zbran, mec" class="w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white text-sm focus:border-rpgGold focus:outline-none">
-                    </div>
-
-                    <div class="pt-4 flex justify-end gap-3">
-                        <button type="button" onclick="closeArticleForm()" class="bg-rpgBorder hover:bg-white/5 text-white font-bold uppercase text-xs tracking-wider px-5 py-2.5 rounded transition-all">Zrušit</button>
-                        <button type="submit" class="bg-rpgGold hover:bg-rpgGoldHover text-rpgDark font-bold uppercase text-xs tracking-wider px-5 py-2.5 rounded transition-all shadow-md shadow-rpgGold/10">Uložit článek</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- MODÁLNÍ FORMULÁŘ PRO KATEGORIE -->
-        <div id="category-form-modal" class="hidden fixed inset-0 z-50 bg-rpgDark/90 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-            <div class="bg-rpgCard border border-rpgBorder rounded-lg max-w-md w-full p-6 md:p-8 space-y-6">
-                <div class="flex justify-between items-center border-b border-rpgBorder pb-4">
-                    <h3 id="cat-form-modal-title" class="text-xl font-bold font-serif text-white uppercase tracking-wider">Nová Kategorie</h3>
-                    <button onclick="closeCategoryForm()" class="text-gray-500 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-                </div>
-                
-                <form id="wiki-category-form" onsubmit="saveCategory(event)" class="space-y-4">
-                    <input type="hidden" id="form-cat-id-old">
-                    
-                    <div class="space-y-1">
-                        <label class="text-xs uppercase font-bold text-gray-400">ID Kategorie (kódové označení, např. 'alchymie')</label>
-                        <input type="text" id="form-cat-id" required placeholder="např. alchymie" class="w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white text-sm focus:border-rpgGold focus:outline-none font-mono">
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs uppercase font-bold text-gray-400">Název Kategorie</label>
-                        <input type="text" id="form-cat-name" required placeholder="např. Alchymie & Vaření" class="w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white text-sm focus:border-rpgGold focus:outline-none">
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs uppercase font-bold text-gray-400">Ikona (třída FontAwesome, např. 'fa-flask')</label>
-                        <input type="text" id="form-cat-icon" required placeholder="fa-flask" class="w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white text-sm focus:border-rpgGold focus:outline-none font-mono">
-                        <span class="text-[10px] text-gray-500 block">Více ikon najdeš na fontawesome.com (např. fa-sword, fa-shield, fa-book-open, fa-flask, fa-gem)</span>
-                    </div>
-
-                    <div class="pt-4 flex justify-end gap-3">
-                        <button type="button" onclick="closeCategoryForm()" class="bg-rpgBorder hover:bg-white/5 text-white font-bold uppercase text-xs tracking-wider px-5 py-2.5 rounded transition-all">Zrušit</button>
-                        <button type="submit" class="bg-rpgGold hover:bg-rpgGoldHover text-rpgDark font-bold uppercase text-xs tracking-wider px-5 py-2.5 rounded transition-all shadow-md shadow-rpgGold/10">Uložit kategorii</button>
-                    </div>
-                </form>
+            <div class="table-wrap overflow-x-auto bg-rpgPanel border border-rpgBorder rounded-lg">
+                <table class="w-full min-w-[600px] text-sm">
+                    <thead class="bg-rpgDark text-gray-400 uppercase text-xs">
+                        <tr>
+                            <th class="p-4 text-left">Ikona</th>
+                            <th class="p-4 text-left">Název</th>
+                            <th class="p-4 text-left">ID</th>
+                            <th class="p-4 text-left">Články</th>
+                            <th class="p-4 text-right">Akce</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cRows"></tbody>
+                </table>
             </div>
         </div>
     </section>
 
-    <!-- ADMIN LOGIN MODAL -->
-    <div id="login-modal" class="hidden fixed inset-0 z-[60] bg-rpgDark/95 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-rpgCard border-2 border-rpgGold rounded-lg max-w-md w-full p-6 md:p-8 space-y-6 shadow-2xl relative">
-            <div class="text-center space-y-2">
-                <span class="text-rpgGold text-3xl"><i class="fa-solid fa-lock"></i></span>
-                <h3 class="text-2xl font-serif font-black text-white uppercase tracking-wider">Vstup do Scriptorat</h3>
-                <p class="text-xs text-gray-400">Pro přístup do správy encyklopedie zadejte šifrovací klíč kronikáře.</p>
+    <div id="login" class="hidden fixed inset-0 z-50 bg-rpgDark/95 backdrop-blur flex items-center justify-center p-4">
+        <form onsubmit="loginSubmit(event)" class="bg-rpgPanel border-2 border-rpgGold rounded-lg max-w-md w-full p-7 space-y-4">
+            <h2 class="text-2xl font-serif font-black text-white uppercase text-center">Administrace</h2>
+            <p class="text-xs text-gray-400 text-center">Zadej šifrovací klíč kronikáře.</p>
+            <input id="pass" type="password" required class="w-full bg-rpgDark border border-rpgBorder focus:border-rpgGold rounded py-3 px-4 text-white outline-none" placeholder="••••••••••••">
+            <p id="loginErr" class="hidden text-red-300 text-xs text-center"></p>
+            <div class="flex gap-3">
+                <button type="button" onclick="login.classList.add('hidden')" class="flex-1 bg-rpgBorder text-white text-xs uppercase font-bold py-3 rounded">Zrušit</button>
+                <button class="flex-1 bg-rpgGold text-rpgDark text-xs uppercase font-bold py-3 rounded">Odemknout</button>
             </div>
-            
-            <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
-                <div class="space-y-1">
-                    <label class="text-xs uppercase font-bold text-gray-400 tracking-wider">Šifrovací Klíč (Heslo)</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-3 flex items-center text-gray-500">
-                            <i class="fa-solid fa-key"></i>
-                        </span>
-                        <input type="password" id="login-password" required placeholder="••••••••••••••" class="w-full bg-rpgDark border border-rpgBorder focus:border-rpgGold rounded-lg py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:ring-1 focus:ring-rpgGold transition-all">
-                    </div>
-                </div>
-                
-                <div id="login-error" class="hidden text-red-500 text-xs font-bold text-center bg-red-950/20 border border-red-900/50 py-2 rounded">
-                    <i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Neplatný šifrovací klíč!
-                </div>
-                
-                <div class="pt-2 flex gap-3">
-                    <button type="button" onclick="closeLoginModal()" class="flex-1 bg-rpgBorder hover:bg-white/5 border border-gray-600 hover:border-white text-white font-bold uppercase text-xs tracking-wider py-3 rounded transition-all">
-                        Zrušit
+        </form>
+    </div>
+
+    <dialog id="articleDlg" class="bg-rpgPanel text-gray-300 border border-rpgBorder rounded-lg max-w-3xl w-[92vw] p-0">
+        <form onsubmit="saveArticle(event)" class="p-6 space-y-4">
+            <div class="flex justify-between border-b border-rpgBorder pb-4">
+                <h2 id="articleTitle" class="text-xl font-serif font-bold text-white uppercase">Článek</h2>
+                <button type="button" onclick="articleDlg.close()" class="text-gray-500 hover:text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <input id="fId" type="hidden">
+            <div class="grid md:grid-cols-2 gap-4">
+                <label class="text-xs uppercase font-bold text-gray-400">Název
+                    <input id="fTitle" required class="mt-1 w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white normal-case font-normal">
+                </label>
+                <label class="text-xs uppercase font-bold text-gray-400">Kategorie
+                    <select id="fCat" required class="mt-1 w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white normal-case font-normal"></select>
+                </label>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <label class="text-xs uppercase font-bold text-gray-400">Čtení
+                    <input id="fRead" type="number" min="1" required class="mt-1 w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white normal-case font-normal">
+                </label>
+                <label class="text-xs uppercase font-bold text-gray-400">Obrázek URL
+                    <input id="fImg" type="url" class="mt-1 w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white normal-case font-normal">
+                </label>
+            </div>
+            <label class="block text-xs uppercase font-bold text-gray-400">Popis
+                <textarea id="fEx" required rows="2" class="mt-1 w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white normal-case font-normal"></textarea>
+            </label>
+            <section class="space-y-2">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="text-xs uppercase font-bold text-gray-400">Obsah článku</span>
+                    <button type="button" id="htmlToggle" onclick="toggleHtmlSource()" class="bg-rpgBorder hover:bg-white/5 text-white text-xs uppercase font-bold px-3 py-2 rounded">
+                        <i class="fa-solid fa-code mr-1"></i>HTML
                     </button>
-                    <button type="submit" class="flex-1 bg-rpgGold hover:bg-rpgGoldHover text-rpgDark font-extrabold uppercase text-xs tracking-wider py-3 rounded transition-all shadow-md shadow-rpgGold/10">
-                        Odemknout
-                    </button>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- CHYTRÉ POPUP NOTIFIKACE (Custom Alert/Confirm) -->
-    <div id="custom-alert" class="hidden fixed bottom-6 right-6 z-50 bg-rpgCard border-2 border-rpgGold p-4 rounded-lg shadow-2xl flex items-center gap-3 transition-all duration-300 transform translate-y-10 opacity-0">
-        <span class="text-rpgGold text-xl"><i class="fa-solid fa-circle-info"></i></span>
-        <div>
-            <p id="custom-alert-text" class="text-sm font-bold text-white"></p>
-        </div>
-    </div>
-
-    <div id="custom-confirm" class="hidden fixed inset-0 z-50 bg-rpgDark/90 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-rpgCard border border-rpgBorder rounded-lg max-w-sm w-full p-6 text-center space-y-4 shadow-2xl">
-            <span class="text-rpgGold text-3xl"><i class="fa-solid fa-triangle-exclamation"></i></span>
-            <h3 class="text-lg font-serif font-bold text-white uppercase tracking-wider">Potvrdit akci</h3>
-            <p id="custom-confirm-text" class="text-xs text-gray-400"></p>
-            <div class="flex justify-center gap-3 pt-2">
-                <button id="confirm-cancel" class="bg-rpgBorder hover:bg-white/5 text-white font-bold uppercase text-xs tracking-wider px-4 py-2.5 rounded transition-all">Storno</button>
-                <button id="confirm-ok" class="bg-red-900 hover:bg-red-800 text-white font-bold uppercase text-xs tracking-wider px-4 py-2.5 rounded transition-all">Potvrdit</button>
+                <div class="editor-toolbar" aria-label="Nástroje editoru">
+                    <select id="formatBlock" onchange="editorFormatBlock(this.value); this.value='p'" title="Styl odstavce">
+                        <option value="p">Odstavec</option>
+                        <option value="h2">Nadpis 2</option>
+                        <option value="h3">Nadpis 3</option>
+                    </select>
+                    <button type="button" onclick="editorCmd('bold')" title="Tučně"><i class="fa-solid fa-bold"></i></button>
+                    <button type="button" onclick="editorCmd('italic')" title="Kurzíva"><i class="fa-solid fa-italic"></i></button>
+                    <button type="button" onclick="editorCmd('insertUnorderedList')" title="Odrážky"><i class="fa-solid fa-list-ul"></i></button>
+                    <button type="button" onclick="editorCmd('insertOrderedList')" title="Číslovaný seznam"><i class="fa-solid fa-list-ol"></i></button>
+                    <button type="button" onclick="editorLink()" title="Odkaz"><i class="fa-solid fa-link"></i></button>
+                    <button type="button" onclick="editorQuote()" title="Citace"><i class="fa-solid fa-quote-right"></i></button>
+                    <button type="button" onclick="editorCmd('removeFormat')" title="Vyčistit formát"><i class="fa-solid fa-eraser"></i></button>
+                </div>
+                <div id="visualEditor" class="editor-canvas prose max-w-none normal-case font-normal" contenteditable="true" role="textbox" aria-multiline="true"></div>
+                <textarea id="fCont" required rows="7" class="html-source hidden w-full bg-rpgDark border border-rpgBorder p-2.5 text-white normal-case font-mono"></textarea>
+            </section>
+            <label class="block text-xs uppercase font-bold text-gray-400">Tip
+                <input id="fTip" class="mt-1 w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white normal-case font-normal">
+            </label>
+            <label class="block text-xs uppercase font-bold text-gray-400">Klíčová slova
+                <input id="fKey" class="mt-1 w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white normal-case font-normal" placeholder="boj, quest, město">
+            </label>
+            <div class="dialog-actions flex justify-end gap-3">
+                <button type="button" onclick="articleDlg.close()" class="bg-rpgBorder text-white text-xs uppercase font-bold px-5 py-2.5 rounded">Zrušit</button>
+                <button class="bg-rpgGold text-rpgDark text-xs uppercase font-bold px-5 py-2.5 rounded">Uložit</button>
             </div>
-        </div>
-    </div>
+        </form>
+    </dialog>
 
-    <!-- PATIČKA (Klon z index.html) -->
-    <footer class="bg-rpgDark border-t border-rpgBorder py-12 px-4 mt-auto">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-gray-500">
-            <div class="flex items-center gap-2">
-                <span class="text-rpgGold"><i class="fa-solid fa-dice-d20"></i></span>
-                <span class="font-serif font-bold text-white tracking-widest">MEPLAY<span class="text-rpgGold">RPG</span></span>
-                <span>© 2026. Všechna práva vyhrazena.</span>
+    <dialog id="catDlg" class="bg-rpgPanel text-gray-300 border border-rpgBorder rounded-lg max-w-md w-[92vw] p-0">
+        <form onsubmit="saveCategory(event)" class="p-6 space-y-4">
+            <div class="flex justify-between border-b border-rpgBorder pb-4">
+                <h2 id="catTitle" class="text-xl font-serif font-bold text-white uppercase">Kategorie</h2>
+                <button type="button" onclick="catDlg.close()" class="text-gray-500 hover:text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-            <div class="flex gap-6 text-xs uppercase tracking-wider font-semibold">
-                <a href="index.html" class="hover:text-white transition-colors">Hlavní Web</a>
-                <span class="text-rpgBorder">|</span>
-                <a href="index.html#pripojeni" class="hover:text-white transition-colors">Jak se připojit</a>
-                <span class="text-rpgBorder">|</span>
-                <a href="#" class="hover:text-white transition-colors">Pravidla</a>
+            <input id="cOrig" type="hidden">
+            <label class="block text-xs uppercase font-bold text-gray-400">Název
+                <input id="cName" required class="mt-1 w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white normal-case font-normal">
+            </label>
+            <label class="block text-xs uppercase font-bold text-gray-400">ID
+                <input id="cId" class="mt-1 w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white normal-case font-normal">
+            </label>
+            <label class="block text-xs uppercase font-bold text-gray-400">Ikona
+                <input id="cIcon" class="mt-1 w-full bg-rpgDark border border-rpgBorder rounded p-2.5 text-white normal-case font-normal" placeholder="fa-map">
+            </label>
+            <div class="dialog-actions flex justify-end gap-3">
+                <button type="button" onclick="catDlg.close()" class="bg-rpgBorder text-white text-xs uppercase font-bold px-5 py-2.5 rounded">Zrušit</button>
+                <button class="bg-rpgGold text-rpgDark text-xs uppercase font-bold px-5 py-2.5 rounded">Uložit</button>
             </div>
+        </form>
+    </dialog>
+
+    <div id="toast" class="hidden fixed right-4 bottom-4 z-50 bg-rpgPanel border border-rpgBorder rounded-lg p-4 text-sm shadow-xl"></div>
+
+    <footer class="border-t border-rpgBorder py-8 px-4 text-gray-500">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between gap-3">
+            <b class="font-serif text-white">MEPLAY<span class="text-rpgGold">RPG</span></b>
+            <span>© 2026. Všechna práva vyhrazena.</span>
         </div>
     </footer>
 
-    <!-- INTERAKTIVNÍ WIKI SKRIPTY & DATABÁZE -->
     <script>
-        // Výchozí kategorie (které lze dál upravovat a vytvářet nové v Administraci)
-        const defaultCategories = [
-            { id: "start", name: "Základy & Připojení", icon: "fa-gamepad" },
-            { id: "mechanics", name: "Herní Mechaniky", icon: "fa-sword" },
-            { id: "world", name: "Svět & Lokace", icon: "fa-compass" },
-            { id: "lore", name: "Lore & Postavy", icon: "fa-book-open" }
-        ];
-
-        // Kompletní výchozí databáze článků Wiki o MePlay RPG
-        const defaultArticles = [
-            {
-                id: "w-01",
-                category: "start",
-                categoryName: "Základy & Připojení",
-                title: "Jak se připojit na herní server",
-                excerpt: "Kompletní návod, jak nakonfigurovat herního klienta Minecraft, stáhnout náš 3D resource pack a začít hrát.",
-                readTime: 3,
-                image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80",
-                tip: "Vždy se ujistěte, že máte v nastavení multiplayer serveru povolen 'Server Resource Packs: Prompt' nebo 'Enabled' (Povoleno).",
-                keywords: ["ip", "pripojeni", "verze", "mc.meplay.cz", "resourcepack", "modely", "klient", "1.21.11"],
-                content: `
-                    <p class="font-bold text-white text-lg">Vítej v našem průvodci pro nové hráče!</p>
-                    <p>MePlay RPG běží na platformě Minecraft Java a Bedrock Edition. Abyste si však užili plnohodnotný herní zážitek se všemi našimi vlastními 3D modely, zbraněmi, zbrojemi a questy, musíte se připojit správným způsobem.</p>
-                    
-                    <h4 class="text-white font-serif text-lg font-bold mt-6 mb-2">1. Výběr Správné Verze</h4>
-                    <p>Pro nejlepší stabilitu a nulové grafické chyby silně doporučujeme oficiální verzi <strong>Minecraft Java Edition 1.21.11</strong>. Na starších nebo příliš nových verzích nemusí některé vlastní UI a mechaniky fungovat správně.</p>
-
-                    <h4 class="text-white font-serif text-lg font-bold mt-6 mb-2">2. Nastavení Resource Packu</h4>
-                    <p>Náš server využívá pokročilý server-side resource pack (bez nutnosti instalovat jakékoliv mody). Při přidávání serveru do vašeho seznamu postupujte takto:</p>
-                    <ol class="list-decimal list-inside space-y-2 ml-4 my-2 text-gray-300">
-                        <li>Přejdete do <strong class="text-white">Hra pro více hráčů</strong> (Multiplayer).</li>
-                        <li>Klikněte na <strong class="text-white">Přidat server</strong> (Add Server).</li>
-                        <li>Do názvu zadejte <strong class="text-rpgGold">MePlay RPG</strong> a do adresy <strong class="text-rpgGold">mc.meplay.cz</strong>.</li>
-                        <li>Klikněte na položku <strong class="text-white">Server Resource Packs</strong> and přepněte ji na <strong class="text-white">Enabled</strong> (Povoleno).</li>
-                        <li>Uložte a připojte se.</li>
-                    </ol>
-
-                    <h4 class="text-white font-serif text-lg font-bold mt-6 mb-2">3. První kroky ve hře</h4>
-                    <p>Po připojení se objevíte v bezpečné zóně - na hradu Skalní Hrad. Zde vás přivítá NPC postava kováře, která vám zadá váš první úkol a provede vás základním ovládáním.</p>
-                `
-            },
-            {
-                id: "w-02",
-                category: "start",
-                categoryName: "Základy & Připojení",
-                title: "Vytvoření postavy a reputace",
-                excerpt: "Jak vaše chování k obyvatelům světa MePlay ovlivňuje ceny u obchodníků a chování stráží.",
-                readTime: 4,
-                image: "https://images.unsplash.com/photo-1519074069444-1ba4fff16412?auto=format&fit=crop&w=800&q=80",
-                tip: "Krádeže v obchodech dramaticky snižují reputaci u dané frakce. Pokud tě chytí městská stráž, budeš muset zaplatit vysokou pokutu, nebo jít do žaláře.",
-                keywords: ["postava", "reputace", "třídy", "původ", "obchodníci", "stráže", "zloděj"],
-                content: `
-                    <p class="font-bold text-white text-lg">Osud, který si sami napíšete.</p>
-                    <p>V MePlay RPG neexistují pevně dané startovní třídy, které by vás limitovaly po zbytek hry. Začínáte jako prostý vesničan a vaše zaměření se formuje na základě toho, jaké činnosti provádíte a jak se rozhodujete.</p>
-                    
-                    <h4 class="text-white font-serif text-lg font-bold mt-6 mb-2">Systém Reputace (Karma)</h4>
-                    <p>Každé město, vesnice a frakce na serveru sdílí dynamický systém reputace. Vaše skóre se pohybuje od -1000 (Úhlavní nepřítel) po +1000 (Hrdina lidu).</p>
-
-                    <h4 class="text-white font-serif text-lg font-bold mt-6 mb-2">Vliv Reputace na Hratelnost:</h4>
-                    <ul class="list-disc list-inside space-y-2 ml-4 my-2 text-gray-300">
-                        <li><strong class="text-green-500">Vysoká reputace (+500 a více):</strong> Obchodníci vám nabízejí výrazné slevy, stráže vás zdraví a odemykají se vám unikátní, dobře placené questy u šlechty.</li>
-                        <li><strong class="text-yellow-500">Neutrální reputace (-100 až +100):</strong> Běžný stav. Lidé jsou opatrní, ale ochotní obchodovat za standardní ceny.</li>
-                        <li><strong class="text-red-500">Záporná reputace (-300 a méně):</strong> Obchodníci s vámi odmítají mluvit, stráže vás mohou při vstupu do města prohledávat a podezřívat. Pokud klesnete pod -800, městské stráže na vás zaútočí na potkání.</li>
-                    </ul>
-                `
-            },
-            {
-                id: "w-03",
-                category: "mechanics",
-                categoryName: "Herní Mechaniky",
-                title: "Taktický bojový systém",
-                excerpt: "Základy směrových seků, parírování, staminy a plynulého unavení během tuhých soubojů.",
-                readTime: 6,
-                image: "https://images.unsplash.com/photo-1599733589046-10c005739ef9?auto=format&fit=crop&w=800&q=80",
-                tip: "Těžká zbroj sice skvěle absorbuje útoky, ale dramaticky zpomaluje regeneraci staminy. Bojujte chytře a hlídejte si ukazatel staminy.",
-                keywords: ["boj", "souboje", "stamina", "parry", "kryt", "seky", "taktika"],
-                content: `
-                    <p class="font-bold text-white text-lg">Zapomeňte na klasické Minecraft klikání.</p>
-                    <p>Bojový systém v MePlay RPG je od základu přepracován. Každá zbraň má svou váhu, rychlost útoku a dosah. Útoky spotřebovávají staminu (ukazatel nad vaším XP barem).</p>
-                    
-                    <h4 class="text-white font-serif text-lg font-bold mt-6 mb-2">Stamina a unavení</h4>
-                    <p>Každé mávnutí mečem, krytí štítem nebo sprint spotřebovává energii. Pokud vaše stamina klesne na nulu, vaše útoky způsobují pouze 10% poškození a nemůžete se efektivně krýt.</p>
-
-                    <h4 class="text-white font-serif text-lg font-bold mt-6 mb-2">Směry seků a Parry (Dokonalé vykrytí)</h4>
-                    <p>Pomocí pohybu myši v kombinaci se stisknutím klávesy pro útok kuriózně určujete směr svého výpadu (Shora, Zleva, Zprava, Bodnutí). Pokud se nepřítel kryje ze stejného změru, útok zablokuje. Pokud však stisknete krytí (pravé tlačítko) přesně ve chvíli dopadu nepřátelského úderu, provedete <strong class="text-rpgGold">Dokonalý Parry</strong>, který nepřítele vyvede z rovnováhy a otevře ho pro drtivý protiúder.</p>
-                `
-            },
-            {
-                id: "w-06",
-                category: "world",
-                categoryName: "Svět & Lokace",
-                title: "Královské město Královec",
-                excerpt: "Průzkum největšího obchodního a diplomatického centra, sítě královské šlechty a cechů.",
-                readTime: 4,
-                image: "https://images.unsplash.com/photo-1546484475-7f7bd55792da?auto=format&fit=crop&w=800&q=80",
-                tip: "Uvnitř města platí přísný zákaz tasení zbraní. Pokud vás stráže uvidí s obnaženým mečem, okamžitě vás vyzvou k jeho schování a udělí vám pokutu.",
-                keywords: ["mesto", "kralovec", "hora", "obchod", "gardy", "hrad", "cechy"],
-                content: `
-                    <p class="font-bold text-white text-lg">Srdce celého království.</p>
-                    <p>Královec je monumentální středověké město, které vzkvétá díky bohaté těžbě stříbra v okolních dolech. Město je rozděleno na several čtvrtí, z nichž každá má svou vlastní atmosféru a pravidla.</p>
-                    
-                    <h4 class="text-white font-serif text-lg font-bold mt-6 mb-2">Čtvrti města:</h4>
-                    <ul class="list-disc list-inside space-y-2 ml-4 my-2 text-gray-300">
-                        <li><strong class="text-white">Trhové náměstí:</strong> Zde naleznete desítky obchodníků prodávajících jídlo, suroviny, zbraně i koně. Nachází se zde také městská banka a kovářský cech.</li>
-                        <li><strong class="text-white">Horní Hrad:</strong> Sídlo královského místodržícího a velitelství městské gardy. Vstup je povolen pouze občanům s dobrou reputací nebo šlechtickým glejtem.</li>
-                        <li><strong class="text-white">Podhradí (Chudinská čtvrť):</strong> Místo plné špíny, kde kvete černý trh, hazardní hry v kostky a kde se skrývá zlodějský cech.</li>
-                    </ul>
-                `
-            },
-            {
-                id: "w-09",
-                category: "lore",
-                categoryName: "Lore & Postavy",
-                title: "Martin - Cizinec z daleka",
-                excerpt: "Historie a lore hlavního protagonisty, his zbrklé rozhodnutí roztáčí kola osudu.",
-                readTime: 4,
-                image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
-                tip: "Během hlavní dějové linie budete mít možnost Martinovi pomoci s pomstou. Vaše rozhodnutí na konci této ságy určí budoucí osud celého panství.",
-                keywords: ["martin", "pribeh", "pomsta", "postavy", "hlavni", "cizinec"],
-                content: `
-                    <p class="font-bold text-white text-lg">Obyčejný člověk uprostřed neobyčejných událostí.</p>
-                    <p>Martin začínal jako bezstarostný učeň v kovářské dílně svého otce v malé pohraniční vesnici. His život se však dramaticky změnil během jediné noci, kdy byla vesnice napadena a vypálena vojskem bezohledného šlechtice.</p>
-                    
-                    <h4 class="text-white font-serif text-lg font-bold mt-6 mb-2">Cesta za pomstou</h4>
-                    <p>Martin přežil jen zázrakem a přísahal pomstu vrahům své rodiny. Na své pouti se učí zacházet s mečem, jednat s aristokracií a rozlišovat mezi skutečnými přáteli a zrádci. Postupem času se z prostého kovářského syna stává uznávaný bojovník, his činy ovlivní rovnováhu moci v celé zemi.</p>
-                `
-            }
-        ];
-
-        // Bezpečné načítání z localStorage s fallbackem
-        let categories;
-        let articles;
-
-        try {
-            categories = JSON.parse(localStorage.getItem('rpg_wiki_categories')) || defaultCategories;
-        } catch(e) {
-            categories = defaultCategories;
-        }
-
-        try {
-            articles = JSON.parse(localStorage.getItem('rpg_wiki_articles')) || defaultArticles;
-        } catch(e) {
-            articles = defaultArticles;
-        }
-
-        // UKLÁDÁNÍ DO LOCAL STORAGE
-        function saveToStorage() {
-            try {
-                localStorage.setItem('rpg_wiki_articles', JSON.stringify(articles));
-            } catch(e) {
-                console.warn("Nelze zapsat do localStorage v tomto prostředí.");
-            }
-        }
-
-        function saveCategoriesToStorage() {
-            try {
-                localStorage.setItem('rpg_wiki_categories', JSON.stringify(categories));
-            } catch(e) {
-                console.warn("Nelze zapsat do localStorage v tomto prostředí.");
-            }
-        }
-
-        let activeCategory = "all";
-        let adminMode = false;
-        let activeAdminTab = "articles";
-        let onConfirmSuccess = null;
-
-        // KRYPTOGRAFICKÉ OVĚŘENÍ HESLA (Heslo: JanoJanicekA3J)
-        // 100% stabilní a otestované XOR kódování, které spolehlivě zaručí ověření hesla.
-        function validateLogin(pass) {
-            if (!pass || pass.length !== 14) return false;
+        let categories = [], 
+            articles = [], 
+            active = 'all', 
+            current = null, 
+            isAdmin = !!localStorage.getItem('admin_token');
             
-            // Pevný maskovací vzor pro bezpečné ověření bez uložení prostého textu
-            const pattern = [13, 24, 35, 46, 57, 68, 79, 90, 101, 112, 123, 14, 25, 36];
-            const expected = [71, 121, 77, 65, 115, 37, 33, 51, 6, 21, 16, 79, 42, 110];
-            
-            for (let i = 0; i < 14; i++) {
-                if ((pass.charCodeAt(i) ^ pattern[i]) !== expected[i]) {
-                    return false;
-                }
-            }
-            return true;
+        const img = 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80';
+
+        // Inicializace rychlého vyhledávání
+        quick.innerHTML = ['připojení', 'quest', 'alchymie', 'lokace', 'lore'].map(x => `
+            <button onclick="q.value='${x}';renderArticles()" class="bg-rpgDark/75 border border-rpgBorder hover:bg-rpgBorder px-2.5 py-1.5 rounded text-gray-400">
+                #${x}
+            </button>
+        `).join('');
+
+        document.addEventListener('DOMContentLoaded', loadAll);
+
+        // Pomocné funkce
+        function h(s) {
+            return String(s ?? '').replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[m]));
         }
 
-        // AKCE PŘIHLÁŠENÍ S FORMULÁŘEM
-        function handleLoginSubmit(event) {
-            event.preventDefault();
-            const pass = document.getElementById('login-password').value;
-            
-            if (validateLogin(pass)) {
-                try {
-                    sessionStorage.setItem('rpg_wiki_logged', 'true');
-                } catch(e) {}
-                
-                closeLoginModal();
-                showToast("Kronika odemčena. Vítej, administrátore.");
-                adminMode = false;
-                toggleAdminView();
+        function norm(s) {
+            return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        }
+
+        function cid(a) {
+            return a?.category?.id || a?.categoryId || a?.category;
+        }
+
+        function syncEditorToSource() {
+            if (!visualEditor || !fCont) return;
+            fCont.value = visualEditor.innerHTML.trim();
+        }
+
+        function syncSourceToEditor() {
+            if (!visualEditor || !fCont) return;
+            visualEditor.innerHTML = fCont.value.trim() || '<p></p>';
+        }
+
+        function toggleHtmlSource() {
+            let showingSource = !fCont.classList.contains('hidden');
+            if (showingSource) {
+                syncSourceToEditor();
             } else {
-                const errEl = document.getElementById('login-error');
-                errEl.classList.remove('hidden');
-                document.getElementById('login-password').value = '';
-                document.getElementById('login-password').focus();
+                syncEditorToSource();
+            }
+            fCont.classList.toggle('hidden', showingSource);
+            visualEditor.classList.toggle('hidden', !showingSource);
+            htmlToggle.classList.toggle('bg-rpgGold', !showingSource);
+            htmlToggle.classList.toggle('text-rpgDark', !showingSource);
+            htmlToggle.classList.toggle('bg-rpgBorder', showingSource);
+        }
+
+        function editorCmd(cmd, value = null) {
+            visualEditor.focus();
+            document.execCommand(cmd, false, value);
+            syncEditorToSource();
+        }
+
+        function editorFormatBlock(tag) {
+            editorCmd('formatBlock', tag);
+        }
+
+        function editorLink() {
+            let url = prompt('URL odkazu:');
+            if (!url) return;
+            editorCmd('createLink', url);
+        }
+
+        function editorQuote() {
+            editorCmd('formatBlock', 'blockquote');
+        }
+
+        function headers() {
+            let t = localStorage.getItem('admin_token');
+            return {
+                'Content-Type': 'application/json',
+                ...(t ? { Authorization: 'Bearer ' + t } : {})
+            };
+        }
+
+        // API Volání
+        async function api(url, opt = {}) {
+            let r = await fetch(url, {
+                ...opt,
+                headers: { ...headers(), ...(opt.headers || {}) }
+            });
+            let d = await r.json().catch(() => ({}));
+            if (!r.ok) throw Error(d.error || 'Požadavek selhal');
+            return d;
+        }
+
+        async function loadAll() {
+            try {
+                categories = await api('/api/categories');
+                articles = await api('/api/articles');
+                renderAll();
+            } catch (e) {
+                message(e.message);
             }
         }
 
-        function openLoginModal() {
-            document.getElementById('login-modal').classList.remove('hidden');
-            document.getElementById('login-password').value = '';
-            document.getElementById('login-error').classList.add('hidden');
-            document.getElementById('login-password').focus();
+        // Renderovací funkce
+        function renderAll() {
+            statA.textContent = articles.length;
+            statC.textContent = categories.length;
+            fCat.innerHTML = categories.map(c => `<option value="${h(c.id)}">${h(c.name)}</option>`).join('');
+            renderCats();
+            renderArticles();
+            if (!admin.classList.contains('hidden')) renderAdmin();
         }
 
-        function closeLoginModal() {
-            document.getElementById('login-modal').classList.add('hidden');
-        }
-
-        function handleLogout() {
-            try {
-                sessionStorage.removeItem('rpg_wiki_logged');
-            } catch(e) {}
-            adminMode = true; 
-            toggleAdminView();
-            showToast("Byl jsi úspěšně odhlášen ze správy encyklopedie.");
-        }
-
-        // DYNAMICKÉ VYKRESLENÍ BOČNÍHO PANELU KATEGORIÍ
-        function renderSidebar() {
-            const sidebar = document.getElementById('sidebar-categories');
-            if (!sidebar) return;
-
-            let html = `
-                <button onclick="selectCategory('all')" id="cat-all" class="category-btn px-4 py-2.5 rounded text-left text-sm font-semibold transition-all whitespace-nowrap flex items-center justify-between gap-4 w-full ${activeCategory === 'all' ? 'bg-rpgGold/15 text-rpgGold border border-rpgGold/30' : 'text-gray-400 hover:bg-white/5 hover:text-white'}">
-                    <span><i class="fa-solid fa-border-all mr-2"></i> Všechny články</span>
-                    <span id="count-all" class="bg-rpgDark px-2 py-0.5 rounded text-xs border border-rpgBorder font-mono">0</span>
+        function renderCats() {
+            let b = id => `w-full whitespace-nowrap text-left px-4 py-2.5 rounded text-sm uppercase tracking-wider flex justify-between gap-4 border ${active == id ? 'bg-rpgGold/10 text-rpgGold border-rpgGold/30' : 'border-transparent text-gray-400 hover:bg-white/5 hover:text-white'}`;
+            
+            cats.innerHTML = `
+                <button onclick="active='all';closeArticle();renderAll()" class="${b('all')}">
+                    <span><i class="fa-solid fa-layer-group mr-2"></i>Všechna témata</span>
+                    <b>${articles.length}</b>
                 </button>
-            `;
-
-            categories.forEach(cat => {
-                const isActive = activeCategory === cat.id;
-                html += `
-                    <button onclick="selectCategory('${cat.id}')" id="cat-${cat.id}" class="category-btn px-4 py-2.5 rounded text-left text-sm font-semibold transition-all whitespace-nowrap flex items-center justify-between gap-4 w-full ${isActive ? 'bg-rpgGold/15 text-rpgGold border border-rpgGold/30' : 'text-gray-400 hover:bg-white/5 hover:text-white'}">
-                        <span><i class="fa-solid ${cat.icon || 'fa-folder'} mr-2"></i> ${cat.name}</span>
-                        <span id="count-${cat.id}" class="bg-rpgDark px-2 py-0.5 rounded text-xs border border-rpgBorder font-mono">0</span>
+            ` + categories.map(c => {
+                let n = articles.filter(a => cid(a) == c.id).length;
+                return `
+                    <button onclick="active='${h(c.id)}';closeArticle();renderAll()" class="${b(c.id)}">
+                        <span><i class="fa-solid ${h(c.icon || 'fa-folder')} mr-2"></i>${h(c.name)}</span>
+                        <b>${n}</b>
                     </button>
                 `;
-            });
-
-            sidebar.innerHTML = html;
+            }).join('');
         }
 
-        // DOPLNĚNÍ VÝBĚRU KATEGORIÍ V MODÁLU PRO ČLÁNKY
-        function populateCategoryDropdown() {
-            const dropdown = document.getElementById('form-category');
-            if (!dropdown) return;
-            dropdown.innerHTML = categories.map(cat => `
-                <option value="${cat.id}">${cat.name}</option>
+        function message(t) {
+            msg.textContent = t;
+            msg.classList.toggle('hidden', !t);
+        }
+
+        function renderArticles() {
+            let s = norm(q.value);
+            let list = articles.filter(a => (active == 'all' || cid(a) == active) && (!s || norm([a.title, a.excerpt, a.categoryName, (a.keywords || []).join(' ')].join(' ')).includes(s)));
+            
+            message(list.length ? '' : 'Nic nenalezeno. Zkus jiné slovo nebo kategorii.');
+            
+            grid.innerHTML = list.map(a => `
+                <div class="article-card bg-rpgPanel border border-rpgBorder rounded-lg overflow-hidden hover:border-rpgGold/50 transition-colors">
+                    <button onclick="viewArticle('${h(a.id)}')" class="article-media bg-rpgDark relative text-left w-full overflow-hidden">
+                        <img src="${h(a.image || img)}" class="w-full h-full object-cover" alt="${h(a.title)}">
+                        <span class="article-chip absolute top-3 left-3 bg-rpgDark/90 text-rpgGold text-[10px] uppercase font-bold tracking-widest px-2 py-1 rounded border border-rpgGold/20">
+                            ${h(a.categoryName || a.category?.name || 'Obecné')}
+                        </span>
+                    </button>
+                    <div class="p-5 flex flex-col grow justify-between gap-4">
+                        <div>
+                            <h3 class="text-xl font-serif font-bold text-white uppercase">${h(a.title)}</h3>
+                            <p class="article-summary clamp text-sm text-gray-400 mt-2">${h(a.excerpt)}</p>
+                        </div>
+                        <div class="article-footer flex items-center justify-between gap-3 text-xs text-gray-500">
+                            <span><i class="fa-regular fa-clock mr-1"></i>${a.readTime || 3} min</span>
+                            <button onclick="viewArticle('${h(a.id)}')" class="bg-rpgBorder hover:bg-rpgGold hover:text-rpgDark text-white uppercase font-bold px-3 py-2 rounded">Číst</button>
+                        </div>
+                    </div>
+                </div>
             `).join('');
         }
 
-        // AKTUALIZACE POČTU ČLÁNKŮ V KATEGORIÍCH
-        function updateCategoryCounts() {
-            const countAll = document.getElementById('count-all');
-            if (countAll) countAll.innerText = articles.length;
-
-            categories.forEach(cat => {
-                const el = document.getElementById(`count-${cat.id}`);
-                if (el) {
-                    el.innerText = articles.filter(a => a.category === cat.id).length;
-                }
-            });
+        // Čtení článků
+        function viewArticle(id) {
+            let a = articles.find(x => x.id == id);
+            if (!a) return;
+            current = id;
+            grid.classList.add('hidden');
+            viewer.classList.remove('hidden');
+            vImg.src = a.image || img;
+            vCat.textContent = a.categoryName || a.category?.name || 'Obecné';
+            vTitle.textContent = a.title || '';
+            vEx.textContent = a.excerpt || '';
+            vContent.innerHTML = a.content || '<p>Obsah článku zatím není vyplněn.</p>';
+            vTip.textContent = a.tip || 'K tomuto tématu zatím není přidaná žádná rada.';
+            vMeta.innerHTML = `<i class="fa-regular fa-clock mr-1"></i>${a.readTime || 3} min čtení · Autor: MePlay tým`;
+            vEdit.classList.toggle('hidden', !isAdmin);
+            scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // PŘEPÍNÁNÍ REŽIMU ADMINISTRACE (Kontrola přihlášení)
-        function toggleAdminView() {
-            let loggedIn = false;
-            try {
-                loggedIn = sessionStorage.getItem('rpg_wiki_logged') === 'true';
-            } catch(e) {}
+        function closeArticle() {
+            viewer.classList.add('hidden');
+            grid.classList.remove('hidden');
+            current = null;
+        }
 
-            if (!loggedIn) {
-                openLoginModal();
+        function showToast(t, bad = false) {
+            const el = document.getElementById('toast');
+            el.textContent = t;
+            el.className = `fixed right-4 bottom-4 z-50 rounded-lg p-4 text-sm shadow-xl ${bad ? 'bg-red-950 border border-red-800 text-red-100' : 'bg-rpgPanel border border-rpgBorder text-gray-100'}`;
+            clearTimeout(showToast.t);
+            showToast.t = setTimeout(() => el.classList.add('hidden'), 3000);
+        }
+
+        // Správa administrace
+        async function loginSubmit(e) {
+            e.preventDefault();
+            try {
+                let d = await api('/api/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ password: pass.value })
+                });
+                localStorage.setItem('admin_token', d.token);
+                isAdmin = true;
+                login.classList.add('hidden');
+                toggleAdmin();
+                showToast('Administrace odemčena');
+            } catch (x) {
+                loginErr.textContent = x.message;
+                loginErr.classList.remove('hidden');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_token');
+            location.reload();
+        }
+
+        function toggleAdmin() {
+            if (!isAdmin) {
+                login.classList.remove('hidden');
+                pass.focus();
                 return;
             }
-
-            adminMode = !adminMode;
-            const searchHeader = document.querySelector('header');
-            const mainContent = document.querySelector('main');
-            const adminView = document.getElementById('admin-view');
-
-            if (adminMode) {
-                searchHeader.classList.add('hidden');
-                mainContent.classList.add('hidden');
-                adminView.classList.remove('hidden');
-                switchAdminTab(activeAdminTab);
-            } else {
-                searchHeader.classList.remove('hidden');
-                mainContent.classList.remove('hidden');
-                adminView.classList.add('hidden');
-                renderSidebar();
-                updateCategoryCounts();
-                displayArticles();
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            let open = admin.classList.contains('hidden');
+            admin.classList.toggle('hidden', !open);
+            main.classList.toggle('hidden', open);
+            hero.classList.toggle('hidden', open);
+            if (open) renderAdmin();
+            else renderAll();
         }
 
-        // PŘEPÍNÁNÍ ADMIN ZÁLOŽEK
-        function switchAdminTab(tab) {
-            activeAdminTab = tab;
-            const btnArt = document.getElementById('tab-btn-articles');
-            const btnCat = document.getElementById('tab-btn-categories');
-            const secArt = document.getElementById('admin-articles-section');
-            const secCat = document.getElementById('admin-categories-section');
-
-            btnArt.className = "px-4 py-2 font-bold text-sm tracking-wider uppercase transition-all " + 
-                (tab === 'articles' ? 'border-b-2 border-rpgGold text-rpgGold' : 'text-gray-400 hover:text-white');
-            
-            btnCat.className = "px-4 py-2 font-bold text-sm tracking-wider uppercase transition-all " + 
-                (tab === 'categories' ? 'border-b-2 border-rpgGold text-rpgGold' : 'text-gray-400 hover:text-white');
-
-            if (tab === 'articles') {
-                secArt.classList.remove('hidden');
-                secCat.classList.add('hidden');
-                renderAdminTable();
-            } else {
-                secArt.classList.add('hidden');
-                secCat.classList.remove('hidden');
-                renderAdminCategoriesTable();
-            }
+        function tab(x) {
+            adminA.classList.toggle('hidden', x != 'a');
+            adminC.classList.toggle('hidden', x != 'c');
+            tabA.className = x == 'a' ? 'border-b-2 border-rpgGold text-rpgGold px-4 py-3 font-bold uppercase text-sm' : 'text-gray-400 px-4 py-3 font-bold uppercase text-sm';
+            tabC.className = x == 'c' ? 'border-b-2 border-rpgGold text-rpgGold px-4 py-3 font-bold uppercase text-sm' : 'text-gray-400 px-4 py-3 font-bold uppercase text-sm';
         }
 
-        // VYKRASLENÍ TABULKY ČLÁNKŮ V ADMINU
-        function renderAdminTable() {
-            const tbody = document.getElementById('admin-table-body');
-            tbody.innerHTML = articles.map(art => `
-                <tr class="hover:bg-white/5 transition-colors">
-                    <td class="p-4">
-                        <img src="${art.image}" alt="" class="w-12 h-8 object-cover rounded border border-rpgBorder" onerror="this.src='https://images.unsplash.com/photo-1519074069444-1ba4fff16412?auto=format&fit=crop&w=800&q=80'">
-                    </td>
-                    <td class="p-4 font-bold text-white">${art.title}</td>
-                    <td class="p-4 uppercase text-xs text-rpgGold font-bold">${art.categoryName}</td>
-                    <td class="p-4 font-mono text-xs">${art.readTime} min</td>
-                    <td class="p-4 text-right space-x-2 whitespace-nowrap">
-                        <button onclick="openArticleForm('${art.id}')" class="text-xs bg-rpgBorder hover:bg-white/10 hover:text-white text-gray-300 px-3 py-1.5 rounded transition-all border border-gray-600" title="Upravit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button onclick="confirmDelete('${art.id}')" class="text-xs bg-red-950/40 hover:bg-red-900/60 text-red-400 hover:text-red-300 px-3 py-1.5 rounded transition-all border border-red-900" title="Smazat"><i class="fa-solid fa-trash"></i></button>
+        function renderAdmin() {
+            aRows.innerHTML = articles.map(a => `
+                <tr class="border-t border-rpgBorder/60">
+                    <td class="p-4"><img src="${h(a.image || img)}" class="w-16 h-10 object-cover rounded"></td>
+                    <td class="p-4 font-bold text-white">${h(a.title)}</td>
+                    <td class="p-4">${h(a.categoryName || 'Obecné')}</td>
+                    <td class="p-4 font-mono">${a.readTime || 3} min</td>
+                    <td class="p-4 text-right">
+                        <button onclick="openArticleForm('${h(a.id)}')" class="text-rpgGold px-2"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteArticle('${h(a.id)}')" class="text-red-400 px-2"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
-            `).join('');
-        }
+            `).join('') || '<tr><td colspan="5" class="p-6 text-center text-gray-500">Žádné články.</td></tr>';
 
-        // VYKRASLENÍ TABULKY KATEGORIÍ V ADMINU
-        function renderAdminCategoriesTable() {
-            const tbody = document.getElementById('admin-categories-table-body');
-            if (!tbody) return;
-
-            tbody.innerHTML = categories.map(cat => {
-                const count = articles.filter(art => art.category === cat.id).length;
+            cRows.innerHTML = categories.map(c => {
+                let n = articles.filter(a => cid(a) == c.id).length;
                 return `
-                    <tr class="hover:bg-white/5 transition-colors">
-                        <td class="p-4 text-xl text-rpgGold"><i class="fa-solid ${cat.icon || 'fa-folder'}"></i></td>
-                        <td class="p-4 font-bold text-white">${cat.name}</td>
-                        <td class="p-4 font-mono text-xs text-gray-500">${cat.id}</td>
-                        <td class="p-4 font-mono text-xs">${count} článků</td>
-                        <td class="p-4 text-right space-x-2 whitespace-nowrap">
-                            <button onclick="openCategoryForm('${cat.id}')" class="text-xs bg-rpgBorder hover:bg-white/10 hover:text-white text-gray-300 px-3 py-1.5 rounded transition-all border border-gray-600" title="Upravit"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="confirmDeleteCategory('${cat.id}')" class="text-xs bg-red-950/40 hover:bg-red-900/60 text-red-400 hover:text-red-300 px-3 py-1.5 rounded transition-all border border-red-900" title="Smazat"><i class="fa-solid fa-trash"></i></button>
+                    <tr class="border-t border-rpgBorder/60">
+                        <td class="p-4"><i class="fa-solid ${h(c.icon || 'fa-folder')} text-rpgGold"></i></td>
+                        <td class="p-4 font-bold text-white">${h(c.name)}</td>
+                        <td class="p-4 font-mono text-xs">${h(c.id)}</td>
+                        <td class="p-4 font-mono">${n}</td>
+                        <td class="p-4 text-right">
+                            <button onclick="openCategoryForm('${h(c.id)}')" class="text-rpgGold px-2"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteCategory('${h(c.id)}')" class="text-red-400 px-2"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
             }).join('');
         }
 
-        // OTEVŘENÍ FORMULÁŘE PRO ČLÁNKEK
-        function openArticleForm(id = null) {
-            const modal = document.getElementById('article-form-modal');
-            const modalTitle = document.getElementById('form-modal-title');
-            const form = document.getElementById('wiki-article-form');
-            
-            form.reset();
-            document.getElementById('form-article-id').value = '';
-            populateCategoryDropdown();
-
-            if (id) {
-                modalTitle.innerText = "Upravit Článek";
-                const art = articles.find(a => a.id === id);
-                if (art) {
-                    document.getElementById('form-article-id').value = art.id;
-                    document.getElementById('form-title').value = art.title;
-                    document.getElementById('form-category').value = art.category;
-                    document.getElementById('form-readtime').value = art.readTime;
-                    document.getElementById('form-image').value = art.image;
-                    document.getElementById('form-excerpt').value = art.excerpt;
-                    document.getElementById('form-content').value = art.content;
-                    document.getElementById('form-tip').value = art.tip;
-                    document.getElementById('form-keywords').value = art.keywords.join(', ');
-                }
-            } else {
-                modalTitle.innerText = "Nový Článek";
-            }
-            modal.classList.remove('hidden');
+        // Operace s články v adminu
+        function openArticleForm(id = '') {
+            let a = id ? articles.find(x => x.id == id) : null;
+            articleTitle.textContent = a ? 'Upravit článek' : 'Nový článek';
+            fId.value = a?.id || '';
+            fTitle.value = a?.title || '';
+            fCat.value = cid(a) || categories[0]?.id || '';
+            fRead.value = a?.readTime || 3;
+            fImg.value = a?.image || '';
+            fEx.value = a?.excerpt || '';
+            fCont.value = a?.content || '';
+            syncSourceToEditor();
+            if (!fCont.classList.contains('hidden')) toggleHtmlSource();
+            fTip.value = a?.tip || '';
+            fKey.value = Array.isArray(a?.keywords) ? a.keywords.join(', ') : '';
+            articleDlg.showModal();
         }
 
-        function closeArticleForm() {
-            document.getElementById('article-form-modal').classList.add('hidden');
-        }
-
-        // UKLÁDÁNÍ ČLÁNKU
-        function saveArticle(event) {
-            event.preventDefault();
-            const id = document.getElementById('form-article-id').value;
-            const title = document.getElementById('form-title').value;
-            const category = document.getElementById('form-category').value;
-            const readTime = parseInt(document.getElementById('form-readtime').value) || 3;
-            const image = document.getElementById('form-image').value || "https://images.unsplash.com/photo-1519074069444-1ba4fff16412?auto=format&fit=crop&w=800&q=80";
-            const excerpt = document.getElementById('form-excerpt').value;
-            const content = document.getElementById('form-content').value;
-            const tip = document.getElementById('form-tip').value || "Zkušenosti dělají mistra. Cestuj a trénuj své dovednosti.";
-            const keywordsInput = document.getElementById('form-keywords').value;
-            const keywords = keywordsInput ? keywordsInput.split(',').map(k => k.trim()) : [];
-
-            const matchedCat = categories.find(c => c.id === category);
-            const categoryName = matchedCat ? matchedCat.name : "Ostatní";
-
-            if (id) {
-                const index = articles.findIndex(a => a.id === id);
-                if (index !== -1) {
-                    articles[index] = {
-                        ...articles[index],
-                        title,
-                        category,
-                        categoryName,
-                        readTime,
-                        image,
-                        excerpt,
-                        content,
-                        tip,
-                        keywords
-                    };
-                    showToast("Článek byl úspěšně aktualizován.");
-                }
-            } else {
-                const newId = "w-" + String(articles.length + 1).padStart(2, '0');
-                articles.push({
-                    id: newId,
-                    category,
-                    categoryName,
-                    title,
-                    excerpt,
-                    readTime,
-                    image,
-                    tip,
-                    keywords,
-                    content
+        async function saveArticle(e) {
+            e.preventDefault();
+            if (fCont.classList.contains('hidden')) syncEditorToSource();
+            let id = fId.value,
+                p = {
+                    title: fTitle.value.trim(),
+                    category: fCat.value,
+                    categoryName: fCat.options[fCat.selectedIndex]?.text || '',
+                    readTime: parseInt(fRead.value) || 3,
+                    image: fImg.value.trim(),
+                    excerpt: fEx.value.trim(),
+                    content: (fCont.classList.contains('hidden') ? visualEditor.innerHTML : fCont.value).trim(),
+                    tip: fTip.value.trim(),
+                    keywords: fKey.value.split(',').map(x => x.trim()).filter(Boolean)
+                };
+            try {
+                await api(id ? '/api/articles/' + encodeURIComponent(id) : '/api/articles', {
+                    method: id ? 'PUT' : 'POST',
+                    body: JSON.stringify(p)
                 });
-                showToast("Článek byl úspěšně vytvořen.");
+                await loadAll();
+                articleDlg.close();
+                renderAdmin();
+                if (current == id) viewArticle(id);
+                showToast('Článek uložen');
+            } catch (x) {
+                showToast(x.message, true);
             }
-
-            saveToStorage();
-            closeArticleForm();
-            renderAdminTable();
         }
 
-        // OTEVŘENÍ FORMULÁŘE PRO KATEGORII
-        function openCategoryForm(id = null) {
-            const modal = document.getElementById('category-form-modal');
-            const modalTitle = document.getElementById('cat-form-modal-title');
-            const form = document.getElementById('wiki-category-form');
-            const idInput = document.getElementById('form-cat-id');
+        visualEditor.addEventListener('input', syncEditorToSource);
+        fCont.addEventListener('input', syncSourceToEditor);
 
-            form.reset();
-            document.getElementById('form-cat-id-old').value = '';
-            idInput.disabled = false;
-
-            if (id) {
-                modalTitle.innerText = "Upravit Kategorii";
-                const cat = categories.find(c => c.id === id);
-                if (cat) {
-                    document.getElementById('form-cat-id-old').value = cat.id;
-                    idInput.value = cat.id;
-                    idInput.disabled = true; 
-                    document.getElementById('form-cat-name').value = cat.name;
-                    document.getElementById('form-cat-icon').value = cat.icon;
-                }
-            } else {
-                modalTitle.innerText = "Nová Kategorie";
+        async function deleteArticle(id) {
+            if (!confirm('Smazat tento článek?')) return;
+            try {
+                await api('/api/articles/' + encodeURIComponent(id), { method: 'DELETE' });
+                await loadAll();
+                renderAdmin();
+                showToast('Článek smazán');
+            } catch (x) {
+                showToast(x.message, true);
             }
-            modal.classList.remove('hidden');
         }
 
-        function closeCategoryForm() {
-            document.getElementById('category-form-modal').classList.add('hidden');
+        // Operace s kategoriemi v adminu
+        function openCategoryForm(id = '') {
+            let c = id ? categories.find(x => x.id == id) : null;
+            catTitle.textContent = c ? 'Upravit kategorii' : 'Nová kategorie';
+            cOrig.value = c?.id || '';
+            cId.value = c?.id || '';
+            cId.disabled = !!c;
+            cName.value = c?.name || '';
+            cIcon.value = c?.icon || 'fa-folder';
+            catDlg.showModal();
         }
 
-        // UKLÁDÁNÍ KATEGORIE
-        function saveCategory(event) {
-            event.preventDefault();
-            const oldId = document.getElementById('form-cat-id-old').value;
-            const id = document.getElementById('form-cat-id').value.trim().toLowerCase().replace(/[^a-z0-9-_]/g, '');
-            const name = document.getElementById('form-cat-name').value.trim();
-            const icon = document.getElementById('form-cat-icon').value.trim() || "fa-folder";
-
-            if (!id || !name) {
-                showToast("ID a název kategorie jsou povinné.");
-                return;
-            }
-
-            if (oldId) {
-                const index = categories.findIndex(c => c.id === oldId);
-                if (index !== -1) {
-                    categories[index].name = name;
-                    categories[index].icon = icon;
-
-                    articles.forEach(art => {
-                        if (art.category === oldId) {
-                            art.categoryName = name;
-                        }
-                    });
-                    saveToStorage();
-                    showToast("Kategorie byla aktualizována.");
-                }
-            } else {
-                if (categories.some(c => c.id === id) || id === "all") {
-                    showToast("Kategorie s tímto ID již existuje.");
-                    return;
-                }
-                categories.push({ id, name, icon });
-                showToast("Kategorie byla úspěšně vytvořena.");
-            }
-
-            saveCategoriesToStorage();
-            closeCategoryForm();
-            renderAdminCategoriesTable();
-            populateCategoryDropdown();
-        }
-
-        // MAZÁNÍ ČLÁNKU
-        function confirmDelete(id) {
-            showConfirm("Opravdu chcete smazat tento článek? Tuto akci nelze vrátit zpět.", () => {
-                articles = articles.filter(a => a.id !== id);
-                saveToStorage();
-                renderAdminTable();
-                showToast("Článek byl smazán.");
-            });
-        }
-
-        // MAZÁNÍ KATEGORIE
-        function confirmDeleteCategory(id) {
-            const articlesInCat = articles.filter(art => art.category === id).length;
-
-            if (articlesInCat > 0) {
-                showConfirm(`Pozor! V této kategorii se nachází ${articlesInCat} článků. Smazáním kategorie přijdou o filtraci. Opravdu ji přesto chcete smazat?`, () => {
-                    categories = categories.filter(c => c.id !== id);
-                    saveCategoriesToStorage();
-                    renderAdminCategoriesTable();
-                    populateCategoryDropdown();
-                    showToast("Kategorie byla smazána.");
+        async function saveCategory(e) {
+            e.preventDefault();
+            let id = cOrig.value,
+                p = {
+                    id: cId.value.trim(),
+                    name: cName.value.trim(),
+                    icon: cIcon.value.trim() || 'fa-folder'
+                };
+            try {
+                await api(id ? '/api/categories/' + encodeURIComponent(id) : '/api/categories', {
+                    method: id ? 'PUT' : 'POST',
+                    body: JSON.stringify(p)
                 });
-            } else {
-                showConfirm("Opravdu si přejete smazat tuto kategorii?", () => {
-                    categories = categories.filter(c => c.id !== id);
-                    saveCategoriesToStorage();
-                    renderAdminCategoriesTable();
-                    populateCategoryDropdown();
-                    showToast("Kategorie byla smazána.");
-                });
+                await loadAll();
+                catDlg.close();
+                renderAdmin();
+                showToast('Kategorie uložena');
+            } catch (x) {
+                showToast(x.message, true);
             }
         }
 
-        // ROZHRANÍ PRO TOASTY A POTVRZENÍ
-        function showToast(message) {
-            const toast = document.getElementById('custom-alert');
-            const text = document.getElementById('custom-alert-text');
-            text.innerText = message;
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.remove('translate-y-10', 'opacity-0');
-            }, 10);
-            setTimeout(() => {
-                toast.classList.add('translate-y-10', 'opacity-0');
-                setTimeout(() => {
-                    toast.classList.add('hidden');
-                }, 300);
-            }, 3000);
-        }
-
-        function showConfirm(message, callback) {
-            const confirmModal = document.getElementById('custom-confirm');
-            document.getElementById('custom-confirm-text').innerText = message;
-            onConfirmSuccess = callback;
-            confirmModal.classList.remove('hidden');
-        }
-
-        document.getElementById('confirm-cancel').addEventListener('click', () => {
-            document.getElementById('custom-confirm').classList.add('hidden');
-        });
-
-        document.getElementById('confirm-ok').addEventListener('click', () => {
-            document.getElementById('custom-confirm').classList.add('hidden');
-            if (onConfirmSuccess) onConfirmSuccess();
-        });
-
-        // FILTROVÁNÍ PODLE KATEGORIÍ
-        function selectCategory(catId) {
-            activeCategory = catId;
-            closeArticleViewer();
-            renderSidebar();
-            
-            const searchVal = document.getElementById('wiki-search').value;
-            displayArticles(searchVal);
-        }
-
-        // AKCE VYHLEDÁVÁNÍ
-        function handleSearch() {
-            closeArticleViewer();
-            const val = document.getElementById('wiki-search').value.toLowerCase();
-            displayArticles(val);
-        }
-
-        // VYKRESLENÍ ČLÁNKŮ DO GRIDU
-        function displayArticles(filterText = '') {
-            const grid = document.getElementById('articles-grid');
-            if (!grid) return;
-
-            const searchNormalized = filterText.trim().toLowerCase();
-
-            const filtered = articles.filter(art => {
-                const matchesCategory = activeCategory === 'all' || art.category === activeCategory;
-                const matchesSearch = !searchNormalized || 
-                    art.title.toLowerCase().includes(searchNormalized) ||
-                    art.excerpt.toLowerCase().includes(searchNormalized) ||
-                    art.keywords.some(k => k.toLowerCase().includes(searchNormalized));
-                return matchesCategory && matchesSearch;
-            });
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full text-center py-16 text-gray-500 font-serif italic space-y-2 bg-rpgCard border border-rpgBorder rounded-lg">
-                        <p class="text-lg text-rpgGold"><i class="fa-solid fa-feather-pointed"></i></p>
-                        <p>Nebyly nalezeny žádné odpovídající svitky.</p>
-                    </div>
-                `;
-                return;
+        async function deleteCategory(id) {
+            if (!confirm('Smazat kategorii? Pokud obsahuje články, server ji odmítne smazat.')) return;
+            try {
+                await api('/api/categories/' + encodeURIComponent(id), { method: 'DELETE' });
+                if (active == id) active = 'all';
+                await loadAll();
+                renderAdmin();
+                showToast('Kategorie smazána');
+            } catch (x) {
+                showToast(x.message, true);
             }
-
-            grid.innerHTML = filtered.map(art => `
-                <article onclick="openArticleViewer('${art.id}')" class="bg-rpgCard border border-rpgBorder/60 hover:border-rpgGold rounded-lg overflow-hidden flex flex-col cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-rpgGold/5 group">
-                    <div class="h-48 overflow-hidden relative bg-rpgDark">
-                        <img src="${art.image}" alt="${art.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1519074069444-1ba4fff16412?auto=format&fit=crop&w=800&q=80'">
-                        <span class="absolute top-3 left-3 bg-rpgDark/90 text-rpgGold text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-rpgGold/30">
-                            ${art.categoryName}
-                        </span>
-                    </div>
-                    <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
-                        <div class="space-y-2">
-                            <div class="flex items-center gap-2 text-xs text-gray-500 font-mono">
-                                <span><i class="fa-regular fa-clock mr-1"></i> ${art.readTime} min čtení</span>
-                            </div>
-                            <h3 class="text-lg font-serif font-bold text-white group-hover:text-rpgGold transition-colors leading-snug">
-                                ${art.title}
-                            </h3>
-                            <p class="text-xs text-gray-400 line-clamp-3 leading-relaxed">
-                                ${art.excerpt}
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-rpgBorder/30 flex items-center justify-between text-xs text-rpgGold font-bold uppercase tracking-wider group-hover:text-white transition-colors">
-                            <span>Číst článek</span>
-                            <span><i class="fa-solid fa-arrow-right-long group-hover:translate-x-1 transition-transform"></i></span>
-                        </div>
-                    </div>
-                </article>
-            `).join('');
         }
-
-        // ZOBRAZENÍ DETAILU ČLÁNKU
-        function openArticleViewer(id) {
-            const art = articles.find(a => a.id === id);
-            if (!art) return;
-
-            document.getElementById('articles-grid').classList.add('hidden');
-            const viewer = document.getElementById('article-viewer');
-            viewer.classList.remove('hidden');
-
-            document.getElementById('view-image').src = art.image;
-            document.getElementById('view-image').onerror = function() {
-                this.src = "https://images.unsplash.com/photo-1519074069444-1ba4fff16412?auto=format&fit=crop&w=800&q=80";
-            };
-            document.getElementById('view-category').innerText = art.categoryName;
-            document.getElementById('view-readtime').innerHTML = `<i class="fa-regular fa-clock mr-1"></i> ${art.readTime} min čtení`;
-            document.getElementById('view-title').innerText = art.title;
-            document.getElementById('view-excerpt').innerText = art.excerpt;
-            document.getElementById('view-content').innerHTML = art.content;
-            document.getElementById('view-tip').innerText = art.tip;
-
-            viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function closeArticleViewer() {
-            document.getElementById('articles-grid').classList.remove('hidden');
-            document.getElementById('article-viewer').classList.add('hidden');
-        }
-
-        // SPUŠTĚNÍ PO NAČTENÍ
-        window.onload = function() {
-            renderSidebar();
-            populateCategoryDropdown();
-            updateCategoryCounts();
-            displayArticles();
-        };
     </script>
 </body>
 </html>
-```
-eof
-
-Změny jsou hotovy a soubor `wiki.html` byl plně aktualizován. Opravil jsem šifrovací klíče pro heslo `JanoJanicekA3J`, takže administrační panel se nyní okamžitě odemkne a vy můžete pohodlně spravovat články a herní kategorie.

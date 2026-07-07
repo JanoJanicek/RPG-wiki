@@ -1,0 +1,57 @@
+[
+  {
+    "id": "w-01",
+    "category": "start",
+    "categoryName": "Základy & Připojení",
+    "title": "Jak se připojit na herní server",
+    "excerpt": "Návod na konfiguraci klienta Minecraft, stažení resource packu a první připojení.",
+    "readTime": 3,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_UIJdFsTkQA_oO_b26oe2EM1cLY-K564zdylne6G-rO-r2phECD5i7YU&s=10",
+    "tip": "Server je na 1.21.11, protože na novější verze nejsou aktualizovaný některé důležité pluginy.",
+    "keywords": [
+      "ip",
+      "připojení",
+      "pripojeni",
+      "verze",
+      "mc.meplay.cz",
+      "resourcepack",
+      "1.21.11"
+    ],
+    "content": "<h2>Návod pro Minecraft Launcher:</h2><div><br></div>V této část se na server připojíme přes normální Minecraft launcher. Pokud se chcete připojit např. přes curseforge s mody, přečtěte si _________<div><br></div><div><ol><li>Zapněte si Minecraft launcher</li><li>V menu klikněte na \"instalace\"</li><li>Dejte \"Nová instalace\"</li><li>Pojmenujte si ji jak chcete</li><li>Zvolte verzi 1.21.11</li><li>Klikněte na \"Uložit a hrát\"</li><li>Až se vám zapne minecraft zvolte \"multyplayer / hra více hráčů\"&nbsp;</li><li>Dejte \"Vytvořit nový server\"&nbsp;</li><li>Zadejte ip: <i>mc.meplay.cz</i></li><li>Uložte to a připojte se</li><li>Pokud se vás hra zeptá zda-li chcete stáhnout resource pack tak klikněte Ano.</li></ol><div>Přejeme příjemné hraní.</div></div>"
+  },
+  {
+    "id": "w-02",
+    "category": "mechanics",
+    "categoryName": "Herní mechaniky",
+    "title": "První kroky po vstupu do RPG světa",
+    "excerpt": "Co udělat po spawnu, jak číst questy a kde najít základní vybavení.",
+    "readTime": 4,
+    "image": "https://images.unsplash.com/photo-1607513746994-51f730a44832?auto=format&fit=crop&w=1200&q=80",
+    "tip": "Než vyrazíš mimo bezpečnou oblast, promluv s úvodními NPC a otevři si mapu lokací.",
+    "keywords": [
+      "start",
+      "quest",
+      "npc",
+      "vybavení",
+      "spawn",
+      "zacatek"
+    ],
+    "content": "<p>Po prvním připojení projdi krátkou úvodní trasu na spawnu. NPC ti vysvětlí základní ovládání, práci s questy a cestování mezi lokacemi.</p><h3>Doporučený postup</h3><ol><li>Přečti si uvítací zprávu a pravidla serveru.</li><li>Vyzvedni základní výbavu u startovního NPC.</li><li>Splň první jednoduchý úkol, aby se ti otevřely další možnosti.</li><li>Teprve potom vyraz do divočiny nebo do města.</li></ol>"
+  },
+  {
+    "title": "Jak se připojit s módy",
+    "category": "start",
+    "categoryName": "Základy & Připojení",
+    "readTime": 6,
+    "image": "https://cdn.modrinth.com/data/snEgWyzx/images/16f9786c2ede8aacac714e4a11e5232cf2190eec.png",
+    "excerpt": "Nudí tě klasický Minecraft? Připoj se na MePlay-RPG s módy jako Voicechat.",
+    "content": "<h2><span style=\"color: rgb(209, 213, 219); font-family: ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-weight: 400;\">V tomto návodu budeme používat program CurseForge, který je ke stažení zde: </span><a href=\"https://www.curseforge.com/download/app\" style=\"--tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; font-size: inherit; letter-spacing: 0px;\">https://www.curseforge.com/download/app</a></h2><div><br></div><h2>Připojení přes CurseForge:</h2><div><br></div><div><ol><li>Spusťte program CurseForge</li><li>Zvolte \"Minecraft\"</li><li>Vpravo nahoře klikněte na \"Vytvořit\"</li><li>Pojmenujte si instalaci, jak chcete</li><li>Zvolte verzi Minecraftu 1.21.11</li><li>A verzi Fabric</li><li>A vytvořte to</li><li>Spusťte tuto instalaci a pokud jste se ještě nepřihlásili udělejte to</li><li>Dále pokračujte podle návodu na připojení od 7. bodu</li></ol><div><br></div></div><h2>Jak nainstalovat a nastavit VoiceChat:</h2><div><br></div><div>Jelikož jsem línej tak vám sem dám video:</div><iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/xyZduYRBJXk?si=o8YznYlGeuOgmDOI&amp;controls=0&amp;start=52\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen=\"\"></iframe><div><br></div><div><br></div><br><div><br></div><div><br></div><br>",
+    "tip": "I pří komunikaci přes VoiceChat jsi povinný dodržovat pravidla komunikace",
+    "keywords": [
+      "připojení",
+      "módy",
+      "voicechat"
+    ],
+    "id": "w-1783436833668"
+  }
+]

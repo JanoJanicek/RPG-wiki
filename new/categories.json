@@ -1,0 +1,27 @@
+[
+  {
+    "id": "start",
+    "name": "Základy & Připojení",
+    "icon": "fa-gamepad"
+  },
+  {
+    "id": "mechanics",
+    "name": "Herní mechaniky",
+    "icon": "fa-chess"
+  },
+  {
+    "id": "world",
+    "name": "Svět & Lokace",
+    "icon": "fa-compass"
+  },
+  {
+    "id": "lore",
+    "name": "Lore & Postavy",
+    "icon": "fa-book-open"
+  },
+  {
+    "id": "dotazy",
+    "name": "Časté dotazy",
+    "icon": "fa-comment"
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "name": "meplay-rpg-wiki",
+  "version": "1.1.0",
+  "description": "Jednoduchá administrace a veřejná wiki pro Minecraft RPG server MePlay.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js"
+  },
+  "keywords": [
+    "minecraft",
+    "wiki",
+    "rpg"
+  ],
+  "author": "Jáno",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
